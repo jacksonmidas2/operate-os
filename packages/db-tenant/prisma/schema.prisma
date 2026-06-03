@@ -1,0 +1,600 @@
+// ─────────────────────────────────────────────────────────────────────
+// OperateHQ — Per-Tenant Schema
+//
+// This schema is applied to EACH tenant's own Postgres database. Every
+// row here belongs to exactly one cleaning business; cross-tenant joins
+// are structurally impossible.
+//
+// The model coverage follows the 10-section intake questionnaire that
+// drives the operator onboarding wizard (Phase 7). Every field a new
+// operator must provide on Day 1 has a column here.
+// ─────────────────────────────────────────────────────────────────────
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../generated/prisma"
+  binaryTargets = ["native", "windows", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Section 1: Business Info ──────────────────────────────────────────
+
+model BusinessProfile {
+  id              String       @id @default(cuid())
+  legalName       String
+  displayName     String?
+  entityType      EntityType   @default(LLC)
+  ein             String?
+  licenseNumber   String?
+  addressLine1    String?
+  addressLine2    String?
+  city            String?
+  state           String?
+  postalCode      String?
+  phone           String?
+  email           String?
+  websiteUrl      String?
+  logoUrl         String?
+  invoicePrefix   String       @default("INV")
+  nextInvoiceSeq  Int          @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum EntityType {
+  LLC
+  S_CORP
+  C_CORP
+  PARTNERSHIP
+  SOLE_PROPRIETOR
+  OTHER
+}
+
+// ── Section 2: Clients + Locations + Units ────────────────────────────
+
+model Client {
+  id              String           @id @default(cuid())
+  businessName    String
+  mainContactName String?
+  contactEmail    String?
+  contactPhone    String?
+  startedAt       DateTime?
+  billingStructure BillingStructure @default(PER_VISIT)
+  invoiceDueDay   Int?             // 1-31, day of month
+  notes           String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  locations Location[]
+  invoices  Invoice[]
+  bookings  Booking[]
+}
+
+enum BillingStructure {
+  FLAT_MONTHLY
+  HOURLY
+  PER_VISIT
+  PER_UNIT
+}
+
+model Location {
+  id              String   @id @default(cuid())
+  clientId        String
+  name            String   // "Bonnie Brae Apartments"
+  addressLine1    String
+  addressLine2    String?
+  city            String
+  state           String
+  postalCode      String
+  monthlyPaymentCents Int?
+  notes           String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  client          Client            @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  units           Unit[]
+  schedules       ServiceSchedule[]
+  scopeItems      ScopeItem[]
+  accessInstructions AccessInstruction[]
+  supplyEstimates SupplyEstimate[]
+  jobs            Job[]
+  invoiceLines    InvoiceLine[]
+  expenses        Expense[]
+
+  @@index([clientId])
+}
+
+model Unit {
+  id           String   @id @default(cuid())
+  locationId   String
+  unitNumber   String   // "403", "503", "602"
+  bedroomCount Int?
+  sqft         Int?
+  notes        String?
+
+  createdAt DateTime @default(now())
+
+  location     Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  jobs         Job[]
+  invoiceLines InvoiceLine[]
+
+  @@unique([locationId, unitNumber])
+}
+
+// ── Section 3: Cleaning Schedule ──────────────────────────────────────
+
+model ServiceSchedule {
+  id            String              @id @default(cuid())
+  locationId    String
+  frequency     ServiceFrequency
+  daysOfWeek    String              // CSV "MON,WED,FRI"
+  startTime     String?             // "18:00"
+  endTime       String?             // "21:00"
+  notes         String?
+
+  createdAt DateTime @default(now())
+
+  location      Location            @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  assignments   ScheduleAssignment[]
+}
+
+enum ServiceFrequency {
+  DAILY
+  WEEKLY
+  BIWEEKLY
+  MONTHLY
+  ON_DEMAND
+  TURNOVER // unit-turnover cleaning between tenants (M&M's pattern)
+}
+
+model ScheduleAssignment {
+  id         String          @id @default(cuid())
+  scheduleId String
+  employeeId String
+
+  schedule   ServiceSchedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  employee   Employee        @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@unique([scheduleId, employeeId])
+}
+
+// ── Section 4: Scope of Work + Access ─────────────────────────────────
+
+model ScopeItem {
+  id          String   @id @default(cuid())
+  locationId  String
+  area        String?  // "bathrooms", "lobby", "unit interior"
+  description String
+  frequency   String?  // free-text for now; can normalize later
+
+  createdAt DateTime @default(now())
+
+  location    Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+}
+
+model AccessInstruction {
+  id          String   @id @default(cuid())
+  locationId  String
+  title       String   // "Front door", "Alarm code"
+  instructions String
+  isSensitive Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  location    Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+}
+
+// ── Section 5: Supplies + Expenses ────────────────────────────────────
+
+model SupplyEstimate {
+  id              String   @id @default(cuid())
+  locationId      String
+  monthlyCents    Int
+  notes           String?
+
+  createdAt DateTime @default(now())
+
+  location        Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+}
+
+model Expense {
+  id            String       @id @default(cuid())
+  amountCents   Int
+  vendor        String?
+  category      ExpenseCategory @default(SUPPLIES)
+  spentAt       DateTime
+  locationId    String?
+  receiptUrl    String?
+  notes         String?
+
+  createdAt DateTime @default(now())
+
+  location      Location?    @relation(fields: [locationId], references: [id])
+
+  @@index([spentAt])
+  @@index([category])
+}
+
+enum ExpenseCategory {
+  SUPPLIES
+  PAPER_PRODUCTS
+  EQUIPMENT
+  VEHICLE
+  FUEL
+  MARKETING
+  SOFTWARE
+  INSURANCE
+  PAYROLL
+  TAXES
+  OTHER
+}
+
+// ── Section 6: Payment Methods (that this business ACCEPTS) ──────────
+
+model PaymentMethod {
+  id           String              @id @default(cuid())
+  type         PaymentMethodType
+  identifier   String?             // email, phone, account number
+  instructions String?
+  displayOrder Int                 @default(0)
+  active       Boolean             @default(true)
+
+  createdAt DateTime @default(now())
+}
+
+enum PaymentMethodType {
+  ZELLE
+  PAYPAL
+  STRIPE
+  WIRE_TRANSFER
+  CHECK
+  CASH_APP
+  VENMO
+  BANK_TRANSFER
+  CASH
+  OTHER
+}
+
+// ── Section 7: Employees ──────────────────────────────────────────────
+
+model Employee {
+  id              String              @id @default(cuid())
+  firstName       String
+  lastName        String
+  phone           String?
+  email           String?
+  employmentType  EmploymentType      @default(CONTRACTOR)
+  payRateCents    Int
+  payRateUnit     PayRateUnit         @default(HOURLY)
+  paymentMethod   EmployeePaymentMethod @default(ZELLE)
+  paymentDetail   String?             // Zelle email/phone, account ref
+  startedAt       DateTime?
+  status          EmployeeStatus      @default(GREEN)
+  notes           String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  documents       EmployeeDocument[]
+  scheduleAssignments ScheduleAssignment[]
+  jobAssignments  JobAssignment[]
+  timeEntries     TimeEntry[]
+}
+
+enum EmploymentType {
+  W2
+  CONTRACTOR
+}
+
+enum PayRateUnit {
+  HOURLY
+  PER_VISIT
+  FLAT_MONTHLY
+  PER_UNIT
+}
+
+enum EmployeePaymentMethod {
+  ZELLE
+  DIRECT_DEPOSIT
+  CHECK
+  CASH
+  PAYPAL
+  VENMO
+}
+
+enum EmployeeStatus {
+  GREEN  // no documentation
+  YELLOW // verbal or written warning
+  RED    // final written warning
+}
+
+// ── Section 8: Employee Documentation ─────────────────────────────────
+
+model EmployeeDocument {
+  id         String                 @id @default(cuid())
+  employeeId String
+  type       EmployeeDocumentType
+  title      String
+  fileUrl    String?
+  notes      String?
+  issuedAt   DateTime?
+
+  createdAt DateTime @default(now())
+
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+}
+
+enum EmployeeDocumentType {
+  VERBAL_WARNING
+  WRITTEN_WARNING
+  FINAL_WARNING
+  TERMINATION
+  ONBOARDING
+  W9
+  AGREEMENT
+  PERFORMANCE_NOTE
+  OTHER
+}
+
+// ── Section 9: Insurance ──────────────────────────────────────────────
+
+model InsurancePolicy {
+  id                 String   @id @default(cuid())
+  insurerName        String
+  policyNumber       String?
+  coverageDescription String?
+  monthlyPremiumCents Int?
+  startsOn           DateTime?
+  endsOn             DateTime?
+  documentUrl        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ── Section 10: Existing Systems ──────────────────────────────────────
+
+model ExistingSystem {
+  id          String   @id @default(cuid())
+  type        ExistingSystemType
+  label       String   // "Marilu's QuickBooks", "info@ Gmail"
+  identifier  String?  // account email, URL, vendor ID
+  notes       String?
+  active      Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ExistingSystemType {
+  GMAIL
+  GOOGLE_WORKSPACE
+  OUTLOOK
+  QUICKBOOKS
+  XERO
+  STRIPE
+  SQUARE
+  PAYPAL
+  JOBBER
+  HOUSECALL_PRO
+  WEBSITE_HOST
+  SCHEDULING_APP
+  PAYROLL_SOFTWARE
+  OTHER
+}
+
+// ── Pricebook ─────────────────────────────────────────────────────────
+// M&M's pattern: per-unit pricing by bedroom count ($100/1BR, $200/3BR).
+// Generalizes to any rule the operator wants.
+
+model PricebookEntry {
+  id              String      @id @default(cuid())
+  name            String      // "1BR Turnover", "Recurring Office Weekly"
+  serviceType     ServiceType
+  bedroomCount    Int?        // null = applies to any bedroom count
+  sqftMin         Int?
+  sqftMax         Int?
+  priceCents      Int
+  active          Boolean     @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ServiceType {
+  TURNOVER         // between-tenant deep clean (M&M's core)
+  RECURRING        // weekly/biweekly/monthly maintenance
+  DEEP_CLEAN
+  POST_CONSTRUCTION
+  MOVE_IN_MOVE_OUT
+  ONE_TIME
+}
+
+// ── Operations: Jobs ──────────────────────────────────────────────────
+
+model Job {
+  id            String   @id @default(cuid())
+  locationId    String
+  unitId        String?
+  scheduledStart DateTime
+  scheduledEnd  DateTime
+  actualStart   DateTime?
+  actualEnd     DateTime?
+  status        JobStatus @default(SCHEDULED)
+  serviceType   ServiceType @default(TURNOVER)
+  notes         String?
+  internalNotes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  location      Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  unit          Unit?    @relation(fields: [unitId], references: [id], onDelete: SetNull)
+  assignments   JobAssignment[]
+  timeEntries   TimeEntry[]
+  invoiceLines  InvoiceLine[]
+
+  @@index([scheduledStart])
+  @@index([status])
+}
+
+enum JobStatus {
+  SCHEDULED
+  EN_ROUTE
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+model JobAssignment {
+  id         String   @id @default(cuid())
+  jobId      String
+  employeeId String
+
+  job        Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@unique([jobId, employeeId])
+}
+
+model TimeEntry {
+  id         String    @id @default(cuid())
+  employeeId String
+  jobId      String?
+  clockIn    DateTime
+  clockOut   DateTime?
+  minutes    Int?      // computed on clock-out
+  notes      String?
+
+  createdAt DateTime @default(now())
+
+  employee   Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  job        Job?      @relation(fields: [jobId], references: [id], onDelete: SetNull)
+
+  @@index([employeeId, clockIn])
+}
+
+// ── Operations: Invoices + Payments ───────────────────────────────────
+
+model Invoice {
+  id            String        @id @default(cuid())
+  number        String        @unique // "00001"
+  clientId      String
+  issuedOn      DateTime
+  dueOn         DateTime?
+  totalCents    Int
+  status        InvoiceStatus @default(DRAFT)
+  notes         String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  client        Client        @relation(fields: [clientId], references: [id])
+  lines         InvoiceLine[]
+  payments      Payment[]
+
+  @@index([status])
+  @@index([dueOn])
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PARTIALLY_PAID
+  PAID
+  OVERDUE
+  VOIDED
+}
+
+model InvoiceLine {
+  id           String   @id @default(cuid())
+  invoiceId    String
+  description  String
+  locationId   String?
+  unitId       String?
+  jobId        String?
+  quantity     Int      @default(1)
+  unitPriceCents Int
+  totalCents   Int
+
+  invoice      Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  location     Location? @relation(fields: [locationId], references: [id])
+  unit         Unit?    @relation(fields: [unitId], references: [id])
+  job          Job?     @relation(fields: [jobId], references: [id])
+}
+
+model Payment {
+  id           String   @id @default(cuid())
+  invoiceId    String
+  amountCents  Int
+  method       PaymentMethodType
+  paidAt       DateTime
+  reference    String?  // Stripe charge ID, check number, Zelle confirmation
+  notes        String?
+
+  createdAt DateTime @default(now())
+
+  invoice      Invoice  @relation(fields: [invoiceId], references: [id])
+
+  @@index([paidAt])
+}
+
+// ── Track B: Customer-side bookings (marketplace) ─────────────────────
+
+model Customer {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  phone        String?
+  defaultAddress String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bookings     Booking[]
+}
+
+model Booking {
+  id              String        @id @default(cuid())
+  customerId      String?       // null for Track A → operator-created jobs
+  clientId        String?       // for Track A bookings tied to a Client account
+  scheduledStart  DateTime
+  scheduledEnd    DateTime
+  addressLine1    String
+  city            String
+  state           String
+  postalCode      String
+  bedroomCount    Int?
+  serviceType     ServiceType   @default(ONE_TIME)
+  status          BookingStatus @default(PENDING)
+  totalCents      Int
+  depositCents    Int           @default(0)
+  notes           String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  customer        Customer?     @relation(fields: [customerId], references: [id])
+  client          Client?       @relation(fields: [clientId], references: [id])
+
+  @@index([scheduledStart])
+  @@index([status])
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  ASSIGNED
+  COMPLETED
+  CANCELLED
+  REFUNDED
+}

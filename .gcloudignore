@@ -1,0 +1,30 @@
+# Files NOT uploaded to Cloud Build. Reduces upload size + build noise.
+.git
+.gitignore
+.dockerignore
+
+# Local-only
+node_modules/
+**/node_modules/
+.next/
+**/.next/
+.env
+.env.local
+.env.*.local
+*.log
+docker/data/
+
+# Generated Prisma output (regenerated in builder stage)
+**/generated/prisma/
+
+# Local-only memory + planning docs (project context, not code)
+memory/
+
+# Caches
+.cache/
+.turbo/
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,86 @@
+import { controlPrisma } from "@operate/db-control";
+import { PageHeader, StatCard } from "@/components/Shell";
+import Link from "next/link";
+
+export default async function AdminOverviewPage() {
+  const [tenants, users, billingEvents] = await Promise.all([
+    controlPrisma.tenant.count(),
+    controlPrisma.user.count(),
+    controlPrisma.billingEvent.count(),
+  ]);
+
+  const recentTenants = await controlPrisma.tenant.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 5,
+  });
+
+  return (
+    <>
+      <PageHeader
+        title="Super-admin overview"
+        description="Run Track A — onboard cleaning businesses, configure profit shares, monitor billing."
+        actions={
+          <Link
+            href="/admin/tenants/new"
+            className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+          >
+            + New tenant
+          </Link>
+        }
+      />
+
+      <section className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <StatCard label="Tenants" value={String(tenants)} />
+        <StatCard label="Users" value={String(users)} />
+        <StatCard label="Billing events" value={String(billingEvents)} />
+      </section>
+
+      <section className="mt-8">
+        <h2 className="text-lg font-semibold">Recent tenants</h2>
+        <div className="mt-3 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+          <table className="w-full text-sm">
+            <thead className="bg-gray-50 text-left text-xs uppercase text-gray-500 dark:bg-gray-900">
+              <tr>
+                <th className="px-4 py-2">Slug</th>
+                <th className="px-4 py-2">Legal name</th>
+                <th className="px-4 py-2">Status</th>
+                <th className="px-4 py-2">Created</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+              {recentTenants.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={4}
+                    className="px-4 py-6 text-center text-gray-500"
+                  >
+                    No tenants yet — provision the first one with{" "}
+                    <code className="rounded bg-gray-100 px-1 dark:bg-gray-800">
+                      npm run provision-tenant
+                    </code>
+                    .
+                  </td>
+                </tr>
+              ) : (
+                recentTenants.map((t) => (
+                  <tr key={t.id}>
+                    <td className="px-4 py-2 font-mono">{t.slug}</td>
+                    <td className="px-4 py-2">{t.legalName}</td>
+                    <td className="px-4 py-2">
+                      <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-900 dark:bg-green-900/30 dark:text-green-200">
+                        {t.status}
+                      </span>
+                    </td>
+                    <td className="px-4 py-2 text-gray-500">
+                      {t.createdAt.toISOString().slice(0, 10)}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>
+  );
+}

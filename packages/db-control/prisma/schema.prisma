@@ -1,0 +1,213 @@
+// ─────────────────────────────────────────────────────────────────────
+// OperateHQ — Control-Plane Schema
+//
+// This database is the GLOBAL registry. It tracks every cleaning business
+// (tenant) on the platform, every user, their per-tenant roles, the
+// profit-share contract terms, and billing events.
+//
+// Per-tenant OPERATIONAL data (clients, jobs, employees, invoices) lives
+// in a SEPARATE database per tenant — see @operate/db-tenant (Phase 2).
+//
+// Auth tables (Account/Session/VerificationToken) follow the NextAuth
+// Prisma-adapter spec so NextAuth can plug in directly.
+// ─────────────────────────────────────────────────────────────────────
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../generated/prisma"
+  binaryTargets = ["native", "windows", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("CONTROL_DATABASE_URL")
+}
+
+// ── Tenants ───────────────────────────────────────────────────────────
+
+model Tenant {
+  id          String       @id @default(cuid())
+  slug        String       @unique
+  legalName   String
+  displayName String?
+  databaseUrl String       // encrypted at rest in Phase 14
+  status      TenantStatus @default(ACTIVE)
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  tenantUsers       TenantUser[]
+  profitShareConfig ProfitShareConfig?
+  billingEvents     BillingEvent[]
+  auditLogs         AuditLog[]
+
+  @@index([status])
+}
+
+enum TenantStatus {
+  ACTIVE
+  SUSPENDED
+  ARCHIVED
+}
+
+// ── Users + NextAuth ──────────────────────────────────────────────────
+
+model User {
+  id            String     @id @default(cuid())
+  email         String     @unique
+  name          String?
+  emailVerified DateTime?
+  image         String?
+  globalRole    GlobalRole @default(NONE)
+
+  accounts    Account[]
+  sessions    Session[]
+  tenantUsers TenantUser[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum GlobalRole {
+  NONE        // role determined per-tenant
+  SUPER_ADMIN // OperateHQ team — can access every tenant
+}
+
+model TenantUser {
+  id        String           @id @default(cuid())
+  tenantId  String
+  userId    String
+  role      TenantRole
+  status    TenantUserStatus @default(ACTIVE)
+  invitedAt DateTime?
+  joinedAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, userId])
+  @@index([userId])
+}
+
+enum TenantRole {
+  OWNER    // operator-owner (Marilu @ M&M)
+  MANAGER  // delegated admin
+  EMPLOYEE // cleaner
+  CUSTOMER // homeowner / property manager
+}
+
+enum TenantUserStatus {
+  ACTIVE
+  INVITED
+  SUSPENDED
+}
+
+// NextAuth — Prisma adapter tables (verbatim from the spec)
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ── Profit-share contract terms ───────────────────────────────────────
+
+model ProfitShareConfig {
+  id               String      @id @default(cuid())
+  tenantId         String      @unique
+  splitBasisPoints Int         @default(4000) // 40% = 4000 bps
+  basis            ProfitBasis @default(NET_PROFIT)
+  buyoutMultiple   Int         @default(24)   // 24x trailing monthly payment
+  setupFeeCents    Int         @default(0)    // 0 = loss-leader, 250000 = $2,500
+  startDate        DateTime
+  endDate          DateTime?
+  contractUrl      String?     // S3 link to signed agreement
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}
+
+enum ProfitBasis {
+  NET_PROFIT    // revenue - all expenses (payroll, supplies, ops)
+  GROSS_REVENUE // top-line, before expenses
+  NET_REVENUE   // revenue - direct costs only (excludes overhead)
+}
+
+// ── Billing events (each month's profit-share invoice from us → tenant) ─
+
+model BillingEvent {
+  id             String        @id @default(cuid())
+  tenantId       String
+  periodStart    DateTime
+  periodEnd      DateTime
+  netProfitCents BigInt
+  shareCents     BigInt        // splitBasisPoints/10000 * netProfitCents
+  status         BillingStatus @default(PENDING)
+  paidAt         DateTime?
+  invoiceNumber  String        @unique
+  notes          String?
+
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, periodStart])
+}
+
+enum BillingStatus {
+  PENDING
+  INVOICED
+  PAID
+  DISPUTED
+  WAIVED
+}
+
+// ── Audit log (every super-admin + cross-tenant action) ───────────────
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  tenantId  String?
+  userId    String?
+  action    String
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  tenant Tenant? @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, createdAt])
+  @@index([userId, createdAt])
+}

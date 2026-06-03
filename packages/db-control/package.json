@@ -1,0 +1,28 @@
+{
+  "name": "@operate/db-control",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Prisma client + schema for the OperateHQ control-plane database (tenants, users, profit-share configs).",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./billing": "./src/billing.ts"
+  },
+  "scripts": {
+    "prisma:generate": "prisma generate --schema=./prisma/schema.prisma",
+    "prisma:migrate": "prisma migrate dev --schema=./prisma/schema.prisma",
+    "prisma:migrate:deploy": "prisma migrate deploy --schema=./prisma/schema.prisma",
+    "prisma:studio": "prisma studio --schema=./prisma/schema.prisma",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.2.1",
+    "@operate/db-tenant": "*",
+    "@operate/tenant-router": "*"
+  },
+  "devDependencies": {
+    "prisma": "^6.2.1",
+    "typescript": "^5.7.3"
+  }
+}

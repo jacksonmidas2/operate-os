@@ -1,0 +1,60 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  PROJECT_ID: deep-contact-470100-f0
+  REGION: us-central1
+  SERVICE: operate-web
+  IMAGE_REPO: us-central1-docker.pkg.dev/deep-contact-470100-f0/operate/operate-web
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Build + push image via Cloud Build
+        run: |
+          gcloud builds submit \
+            --config=cloudbuild.yaml \
+            --substitutions=_TAG=${{ github.sha }} \
+            --project=${{ env.PROJECT_ID }} \
+            .
+
+      - name: Deploy revision to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE }} \
+            --image=${{ env.IMAGE_REPO }}:${{ github.sha }} \
+            --region=${{ env.REGION }} \
+            --project=${{ env.PROJECT_ID }} \
+            --quiet
+
+      - name: Print service URL
+        run: |
+          URL=$(gcloud run services describe ${{ env.SERVICE }} \
+            --region=${{ env.REGION }} \
+            --project=${{ env.PROJECT_ID }} \
+            --format='value(status.url)')
+          echo "Deployed: $URL"
+          echo "## :rocket: Deployed" >> $GITHUB_STEP_SUMMARY
+          echo "[$URL]($URL)" >> $GITHUB_STEP_SUMMARY
+          echo "Image: \`${{ env.IMAGE_REPO }}:${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY

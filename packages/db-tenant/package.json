@@ -1,0 +1,29 @@
+{
+  "name": "@operate/db-tenant",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Prisma client + schema template applied to each per-tenant database (clients, jobs, employees, invoices).",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./provision": "./src/provision.ts",
+    "./reporting": "./src/reporting.ts"
+  },
+  "scripts": {
+    "prisma:generate": "prisma generate --schema=./prisma/schema.prisma",
+    "prisma:push": "prisma db push --schema=./prisma/schema.prisma",
+    "prisma:studio": "prisma studio --schema=./prisma/schema.prisma",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.2.1",
+    "@operate/db-control": "*",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.10",
+    "prisma": "^6.2.1",
+    "typescript": "^5.7.3"
+  }
+}

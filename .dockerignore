@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.env
+.env.local
+.env.*.local
+*.log
+docker/data
+**/dist
+**/.prisma
+**/generated/prisma
+memory/
+*.md
+!README.md

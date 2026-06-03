@@ -1,0 +1,36 @@
+# Cloud Build pipeline for the operate-web container.
+#
+# Triggered by:
+#   gcloud builds submit --config=cloudbuild.yaml --substitutions=_TAG=$(git rev-parse --short HEAD)
+#
+# Or for a one-off build:
+#   gcloud builds submit --config=cloudbuild.yaml --substitutions=_TAG=manual
+
+steps:
+  - name: gcr.io/cloud-builders/docker
+    id: build
+    args:
+      - build
+      - --file=apps/web/Dockerfile
+      - --tag=us-central1-docker.pkg.dev/${PROJECT_ID}/operate/operate-web:${_TAG}
+      - --tag=us-central1-docker.pkg.dev/${PROJECT_ID}/operate/operate-web:latest
+      - .
+
+  - name: gcr.io/cloud-builders/docker
+    id: push
+    args:
+      - push
+      - --all-tags
+      - us-central1-docker.pkg.dev/${PROJECT_ID}/operate/operate-web
+
+images:
+  - us-central1-docker.pkg.dev/${PROJECT_ID}/operate/operate-web:${_TAG}
+  - us-central1-docker.pkg.dev/${PROJECT_ID}/operate/operate-web:latest
+
+substitutions:
+  _TAG: latest
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: E2_HIGHCPU_8
+  diskSizeGb: 30

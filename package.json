@@ -1,0 +1,35 @@
+{
+  "name": "operate-os",
+  "version": "0.0.1",
+  "private": true,
+  "description": "OperateHQ — the operating system for cleaning businesses. Powers Track A (operator profit-share) and Track B (Uber-for-cleaning marketplace).",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @operate/web",
+    "build": "npm run build -w @operate/web",
+    "start": "npm run start -w @operate/web",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:logs": "docker compose logs -f postgres",
+    "db:reset": "docker compose down -v && docker compose up -d",
+    "control:generate": "npm run prisma:generate -w @operate/db-control",
+    "control:migrate": "npm run prisma:migrate -w @operate/db-control",
+    "tenant:generate": "npm run prisma:generate -w @operate/db-tenant",
+    "provision-tenant": "tsx packages/db-tenant/src/cli/provision-tenant.ts",
+    "seed:mm": "tsx packages/db-tenant/src/cli/seed-mm.ts",
+    "seed:admin": "tsx packages/db-control/src/cli/seed-admin.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
