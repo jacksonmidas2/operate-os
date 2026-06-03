@@ -18,7 +18,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.39.0"
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@azure-rest/ai-inference": "^1.0.0-beta.5",
+    "@azure/core-auth": "^1.9.0"
   },
   "devDependencies": {
     "typescript": "^5.7.3"

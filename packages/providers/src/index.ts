@@ -23,6 +23,8 @@ import {
   ConsoleAIProvider,
   type AIProvider,
 } from "./ai";
+import { AzureAnthropicAIProvider } from "./ai/azure";
+export { AzureAnthropicAIProvider } from "./ai/azure";
 
 export interface ProviderBundle {
   payments: PaymentProvider;
@@ -39,9 +41,12 @@ export interface ProviderBundle {
  * 10/13 swap in Stripe / Twilio / Anthropic real implementations.
  */
 export function getDefaultProviders(): ProviderBundle {
-  const ai = process.env.ANTHROPIC_API_KEY
-    ? new AnthropicAIProvider()
-    : new ConsoleAIProvider();
+  const ai: AIProvider =
+    process.env.AZURE_AI_FOUNDRY_ENDPOINT && process.env.AZURE_AI_FOUNDRY_KEY
+      ? new AzureAnthropicAIProvider()
+      : process.env.ANTHROPIC_API_KEY
+        ? new AnthropicAIProvider()
+        : new ConsoleAIProvider();
 
   const payments: PaymentProvider = process.env.STRIPE_SECRET_KEY
     ? new StripePaymentProvider()
