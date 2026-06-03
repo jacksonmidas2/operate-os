@@ -22,7 +22,10 @@
     "tenant:generate": "npm run prisma:generate -w @operate/db-tenant",
     "provision-tenant": "tsx packages/db-tenant/src/cli/provision-tenant.ts",
     "seed:mm": "tsx packages/db-tenant/src/cli/seed-mm.ts",
-    "seed:admin": "tsx packages/db-control/src/cli/seed-admin.ts"
+    "seed:admin": "tsx packages/db-control/src/cli/seed-admin.ts",
+    "deploy": "bash scripts/deploy.sh",
+    "deploy:logs": "gcloud run services logs read operate-web --region=us-central1 --project=deep-contact-470100-f0 --limit=50",
+    "deploy:tail": "gcloud run services logs tail operate-web --region=us-central1 --project=deep-contact-470100-f0"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
