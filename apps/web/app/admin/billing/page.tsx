@@ -26,7 +26,7 @@ export default async function BillingPage() {
         actions={
           <Link
             href="/admin/billing/new"
-            className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+            className="rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
           >
             Close a month →
           </Link>
@@ -39,9 +39,9 @@ export default async function BillingPage() {
         <StatCard label="Events" value={String(events.length)} />
       </section>
 
-      <div className="mt-6 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+      <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md shadow-card">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 text-left text-xs uppercase text-gray-500 dark:bg-gray-900">
+          <thead className="bg-white/[0.04] text-left text-[10px] uppercase tracking-wider text-gray-400">
             <tr>
               <th className="px-4 py-2">Invoice #</th>
               <th className="px-4 py-2">Tenant</th>
@@ -51,7 +51,7 @@ export default async function BillingPage() {
               <th className="px-4 py-2">Status</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+          <tbody className="divide-y divide-white/5">
             {events.length === 0 ? (
               <tr>
                 <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
@@ -73,7 +73,7 @@ export default async function BillingPage() {
                     ${(Number(e.shareCents) / 100).toFixed(2)}
                   </td>
                   <td className="px-4 py-2">
-                    <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs dark:bg-gray-800">
+                    <span className="rounded-full bg-white/[0.06] px-2 py-0.5 text-xs text-gray-200">
                       {e.status}
                     </span>
                   </td>

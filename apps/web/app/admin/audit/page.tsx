@@ -15,9 +15,9 @@ export default async function AuditLogPage() {
         description="Every super-admin action + cross-tenant event. Append-only."
       />
 
-      <div className="mt-6 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+      <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md shadow-card">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 text-left text-xs uppercase text-gray-500 dark:bg-gray-900">
+          <thead className="bg-white/[0.04] text-left text-[10px] uppercase tracking-wider text-gray-400">
             <tr>
               <th className="px-4 py-2">When</th>
               <th className="px-4 py-2">Action</th>
@@ -26,7 +26,7 @@ export default async function AuditLogPage() {
               <th className="px-4 py-2">Metadata</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+          <tbody className="divide-y divide-white/5">
             {logs.length === 0 ? (
               <tr>
                 <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
@@ -50,7 +50,7 @@ export default async function AuditLogPage() {
                   </td>
                   <td className="px-4 py-2 text-xs">
                     {log.metadata ? (
-                      <code className="rounded bg-gray-100 px-1 py-0.5 text-xs dark:bg-gray-800">
+                      <code className="rounded bg-white/[0.06] px-1 py-0.5 text-xs">
                         {JSON.stringify(log.metadata).slice(0, 60)}
                       </code>
                     ) : (

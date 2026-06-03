@@ -37,20 +37,20 @@ export default async function OnboardingSectionStub({
         description="This section's form lands in the next iteration. The data model is in place — fields just need to be wired."
       />
 
-      <div className="mt-6 rounded-2xl border border-dashed border-gray-300 p-8 text-center dark:border-gray-700">
-        <p className="text-sm text-gray-600 dark:text-gray-400">
+      <div className="mt-6 rounded-2xl border border-dashed border-white/10 p-8 text-center">
+        <p className="text-sm text-gray-400">
           The tenant DB already has the table for this section. The form
           follows the same pattern as{" "}
           <Link
             href={`/t/${slug}/onboarding/clients`}
-            className="text-brand-600 underline"
+            className="text-accent-400 underline hover:text-accent-300"
           >
             clients
           </Link>{" "}
           and{" "}
           <Link
             href={`/t/${slug}/onboarding/employees`}
-            className="text-brand-600 underline"
+            className="text-accent-400 underline hover:text-accent-300"
           >
             employees
           </Link>
@@ -58,7 +58,7 @@ export default async function OnboardingSectionStub({
         </p>
         <Link
           href={`/t/${slug}/onboarding`}
-          className="mt-4 inline-block rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+          className="mt-4 inline-block rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-4 py-2 text-sm font-medium hover:bg-gray-50"
         >
           ← Back to checklist
         </Link>

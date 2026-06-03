@@ -77,7 +77,7 @@ export default async function NewInvoicePage({
 
       <form
         action={createInvoice.bind(null, slug)}
-        className="mt-6 max-w-3xl space-y-4 rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900"
+        className="mt-6 max-w-3xl space-y-4 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-card p-6"
       >
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <label className="block">
@@ -85,7 +85,7 @@ export default async function NewInvoicePage({
             <select
               name="clientId"
               required
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+              className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
             >
               {clients.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -101,7 +101,7 @@ export default async function NewInvoicePage({
               type="date"
               required
               defaultValue={new Date().toISOString().slice(0, 10)}
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+              className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
             />
           </label>
         </div>
@@ -117,11 +117,11 @@ export default async function NewInvoicePage({
                 <input
                   name="lineDescription"
                   placeholder={`Line ${i + 1} description`}
-                  className="col-span-7 rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+                  className="col-span-7 rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
                 />
                 <select
                   name="lineUnitId"
-                  className="col-span-3 rounded-lg border border-gray-300 px-2 py-2 text-xs dark:border-gray-700 dark:bg-gray-800"
+                  className="col-span-3 rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-2 py-2 text-xs"
                 >
                   <option value="">— no unit —</option>
                   {clients.flatMap((c) =>
@@ -140,7 +140,7 @@ export default async function NewInvoicePage({
                   step="0.01"
                   min="0"
                   placeholder="0.00"
-                  className="col-span-2 rounded-lg border border-gray-300 px-3 py-2 text-right text-sm dark:border-gray-700 dark:bg-gray-800"
+                  className="col-span-2 rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-right text-sm"
                 />
               </div>
             ))}
@@ -149,7 +149,7 @@ export default async function NewInvoicePage({
 
         <button
           type="submit"
-          className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+          className="rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
         >
           Create invoice
         </button>

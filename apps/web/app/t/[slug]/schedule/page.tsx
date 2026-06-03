@@ -50,7 +50,7 @@ export default async function SchedulePage({
           return (
             <div
               key={day}
-              className="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900"
+              className="rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-4"
             >
               <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                 {new Date(day + "T00:00:00").toLocaleDateString(undefined, {
@@ -66,7 +66,7 @@ export default async function SchedulePage({
                   {dayJobs.map((j) => (
                     <li
                       key={j.id}
-                      className="flex items-center justify-between rounded-lg border border-gray-100 px-3 py-2 text-sm dark:border-gray-800"
+                      className="flex items-center justify-between rounded-lg border border-gray-100 px-3 py-2 text-sm"
                     >
                       <div className="flex items-center gap-3">
                         <span className="font-mono text-xs text-gray-500">

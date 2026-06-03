@@ -92,7 +92,7 @@ export default async function DispatchPage({
       />
 
       {bookings.length === 0 ? (
-        <div className="mt-6 rounded-xl border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500 dark:border-gray-700">
+        <div className="mt-6 rounded-xl border border-dashed border-white/10 p-8 text-center text-sm text-gray-500">
           No pending bookings. ✨
         </div>
       ) : (
@@ -100,7 +100,7 @@ export default async function DispatchPage({
           {bookings.map((b) => (
             <li
               key={b.id}
-              className="grid grid-cols-1 gap-4 rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:grid-cols-3"
+              className="grid grid-cols-1 gap-4 rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-4 sm:grid-cols-3"
             >
               <div className="sm:col-span-2">
                 <div className="font-medium">
@@ -124,7 +124,7 @@ export default async function DispatchPage({
                 <select
                   name="employeeId"
                   required
-                  className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+                  className="flex-1 rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
                 >
                   <option value="">— assign cleaner —</option>
                   {employees.map((e) => (
@@ -135,7 +135,7 @@ export default async function DispatchPage({
                 </select>
                 <button
                   type="submit"
-                  className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+                  className="rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
                 >
                   Dispatch
                 </button>

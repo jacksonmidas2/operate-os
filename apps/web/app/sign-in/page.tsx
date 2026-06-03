@@ -6,78 +6,90 @@ export default function SignInPage({
   searchParams: Promise<{ callbackUrl?: string; error?: string }>;
 }) {
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
-      <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-        <p className="text-xs font-semibold uppercase tracking-wider text-brand-600">
-          OperateHQ
-        </p>
-        <h1 className="mt-2 text-2xl font-semibold">Sign in</h1>
-        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
-          Use email or Google to continue.
-        </p>
+    <main className="relative flex min-h-screen items-center justify-center px-6 py-12">
+      {/* Background glow */}
+      <div className="pointer-events-none absolute inset-0 -z-0">
+        <div className="absolute left-1/2 top-1/3 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-500/20 blur-[100px]" />
+      </div>
 
-        <SignInErrorBanner searchParams={searchParams} />
+      <div className="relative w-full max-w-md animate-slide-up">
+        <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-8 backdrop-blur-2xl shadow-card">
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-accent-500 shadow-glow"></div>
+            <span className="text-xs font-medium uppercase tracking-[0.2em] text-gray-400">
+              OperateHQ
+            </span>
+          </div>
+          <h1 className="mt-4 text-2xl font-semibold text-white">Sign in</h1>
+          <p className="mt-1.5 text-sm text-gray-400">
+            Use email or Google to continue.
+          </p>
 
-        <form
-          action={async (formData) => {
-            "use server";
-            const email = String(formData.get("email") ?? "");
-            await signIn("nodemailer", { email, redirectTo: "/" });
-          }}
-          className="mt-6 space-y-3"
-        >
-          <label className="block">
-            <span className="block text-sm font-medium">Email</span>
-            <input
-              name="email"
-              type="email"
-              required
-              placeholder="you@example.com"
-              className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-700 dark:bg-gray-800"
-            />
-          </label>
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand-700"
-          >
-            Send magic link
-          </button>
-        </form>
+          <SignInErrorBanner searchParams={searchParams} />
 
-        {process.env.GOOGLE_CLIENT_ID ? (
-          <>
-            <div className="my-6 flex items-center gap-3 text-xs text-gray-500">
-              <div className="h-px flex-1 bg-gray-200 dark:bg-gray-800" />
-              or
-              <div className="h-px flex-1 bg-gray-200 dark:bg-gray-800" />
-            </div>
+          {process.env.GOOGLE_CLIENT_ID ? (
             <form
               action={async () => {
                 "use server";
                 await signIn("google", { redirectTo: "/" });
               }}
+              className="mt-6"
             >
               <button
                 type="submit"
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                className="flex w-full items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/[0.06] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/[0.10]"
               >
+                <GoogleIcon />
                 Continue with Google
               </button>
             </form>
-          </>
-        ) : (
-          <p className="mt-6 text-xs text-gray-500">
-            Google sign-in not configured. Add{" "}
-            <code className="rounded bg-gray-100 px-1 dark:bg-gray-800">
-              GOOGLE_CLIENT_ID
-            </code>{" "}
-            +{" "}
-            <code className="rounded bg-gray-100 px-1 dark:bg-gray-800">
-              GOOGLE_CLIENT_SECRET
-            </code>{" "}
-            to <code>.env</code>.
-          </p>
-        )}
+          ) : null}
+
+          {process.env.EMAIL_SERVER_HOST ? (
+            <>
+              <div className="my-6 flex items-center gap-3 text-[10px] uppercase tracking-widest text-gray-500">
+                <div className="h-px flex-1 bg-white/10" />
+                or
+                <div className="h-px flex-1 bg-white/10" />
+              </div>
+              <form
+                action={async (formData) => {
+                  "use server";
+                  const email = String(formData.get("email") ?? "");
+                  await signIn("nodemailer", { email, redirectTo: "/" });
+                }}
+                className="space-y-3"
+              >
+                <label className="block">
+                  <span className="block text-xs font-medium uppercase tracking-wider text-gray-400">
+                    Email
+                  </span>
+                  <input
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="you@example.com"
+                    className="mt-1.5 w-full rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-gray-100 placeholder:text-gray-500 focus:border-accent-500/60 focus:outline-none focus:ring-1 focus:ring-accent-500/60"
+                  />
+                </label>
+                <button
+                  type="submit"
+                  className="w-full rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2.5 text-sm font-medium text-white shadow-glow transition hover:from-accent-400 hover:to-accent-600"
+                >
+                  Send magic link
+                </button>
+              </form>
+            </>
+          ) : (
+            <p className="mt-6 rounded-lg border border-white/5 bg-white/[0.02] p-3 text-xs text-gray-500">
+              Email sign-in is disabled in this environment. Use Google above.
+            </p>
+          )}
+        </div>
+
+        <p className="mt-6 text-center text-xs text-gray-500">
+          Protected by your global role + per-tenant memberships.
+        </p>
       </div>
     </main>
   );
@@ -91,8 +103,19 @@ async function SignInErrorBanner({
   const sp = await searchParams;
   if (!sp.error) return null;
   return (
-    <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-900 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-200">
+    <div className="mt-5 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-200">
       Sign-in failed: {sp.error}
     </div>
+  );
+}
+
+function GoogleIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+      <path
+        fill="#EA4335"
+        d="M12 10.2v3.9h5.5c-.2 1.3-1.6 3.9-5.5 3.9-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.8 1.5L18.6 4.9C16.8 3.2 14.6 2.2 12 2.2 6.5 2.2 2 6.6 2 12.1S6.5 22 12 22c6.9 0 11.5-4.8 11.5-11.6 0-.8-.1-1.4-.2-2H12z"
+      />
+    </svg>
   );
 }

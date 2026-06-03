@@ -53,7 +53,7 @@ export default async function EmployeesListPage({
         actions={
           <Link
             href={`/t/${slug}/onboarding/employees`}
-            className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+            className="rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
           >
             + Add employee
           </Link>
@@ -67,9 +67,9 @@ export default async function EmployeesListPage({
         <StatCard label="Red" value={String(byStatus.RED)} hint="Final warning" />
       </section>
 
-      <div className="mt-6 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+      <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md shadow-card">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 text-left text-xs uppercase text-gray-500 dark:bg-gray-900">
+          <thead className="bg-white/[0.04] text-left text-[10px] uppercase tracking-wider text-gray-400">
             <tr>
               <th className="px-4 py-2">Name</th>
               <th className="px-4 py-2">Type</th>
@@ -80,7 +80,7 @@ export default async function EmployeesListPage({
               <th className="px-4 py-2"></th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+          <tbody className="divide-y divide-white/5">
             {employees.length === 0 ? (
               <tr>
                 <td colSpan={7} className="px-4 py-8 text-center text-gray-500">
@@ -89,7 +89,7 @@ export default async function EmployeesListPage({
               </tr>
             ) : (
               employees.map((e) => (
-                <tr key={e.id} className="hover:bg-gray-50 dark:hover:bg-gray-900/50">
+                <tr key={e.id} className="hover:bg-white/[0.03]">
                   <td className="px-4 py-3">
                     <div className="font-medium">
                       {e.firstName} {e.lastName}
@@ -123,7 +123,7 @@ export default async function EmployeesListPage({
                       <select
                         name="status"
                         defaultValue={e.status}
-                        className="rounded-lg border border-gray-300 px-2 py-1 text-xs dark:border-gray-700 dark:bg-gray-800"
+                        className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-2 py-1 text-xs"
                       >
                         <option value="GREEN">GREEN</option>
                         <option value="YELLOW">YELLOW</option>
@@ -131,7 +131,7 @@ export default async function EmployeesListPage({
                       </select>
                       <button
                         type="submit"
-                        className="rounded-lg border border-gray-300 px-2 py-1 text-xs hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                        className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-2 py-1 text-xs hover:bg-gray-50"
                       >
                         Set
                       </button>

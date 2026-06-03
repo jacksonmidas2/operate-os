@@ -31,7 +31,7 @@ export default async function InvoicesListPage({
         actions={
           <Link
             href={`/t/${slug}/invoices/new`}
-            className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+            className="rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
           >
             + New invoice
           </Link>
@@ -44,9 +44,9 @@ export default async function InvoicesListPage({
         <StatCard label="Outstanding" value={`$${(totals.outstanding / 100).toFixed(2)}`} />
       </section>
 
-      <div className="mt-6 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+      <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md shadow-card">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 text-left text-xs uppercase text-gray-500 dark:bg-gray-900">
+          <thead className="bg-white/[0.04] text-left text-[10px] uppercase tracking-wider text-gray-400">
             <tr>
               <th className="px-4 py-2">Number</th>
               <th className="px-4 py-2">Client</th>
@@ -56,7 +56,7 @@ export default async function InvoicesListPage({
               <th className="px-4 py-2">Status</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+          <tbody className="divide-y divide-white/5">
             {invoices.length === 0 ? (
               <tr>
                 <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
@@ -65,11 +65,11 @@ export default async function InvoicesListPage({
               </tr>
             ) : (
               invoices.map((i) => (
-                <tr key={i.id} className="hover:bg-gray-50 dark:hover:bg-gray-900/50">
+                <tr key={i.id} className="hover:bg-white/[0.03]">
                   <td className="px-4 py-3">
                     <Link
                       href={`/t/${slug}/invoices/${i.number}`}
-                      className="font-mono text-brand-600 hover:underline"
+                      className="font-mono text-accent-400 hover:text-accent-300"
                     >
                       {i.number}
                     </Link>
@@ -99,7 +99,7 @@ function StatusPill({ status }: { status: string }) {
         ? "bg-red-100 text-red-900 dark:bg-red-900/30"
         : status === "SENT" || status === "PARTIALLY_PAID"
           ? "bg-blue-100 text-blue-900 dark:bg-blue-900/30"
-          : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300";
+          : "bg-white/[0.06] text-gray-200";
   return (
     <span className={`rounded-full px-2 py-0.5 text-xs ${color}`}>
       {status.replace("_", " ")}

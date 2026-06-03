@@ -57,11 +57,11 @@ export default async function NewJobPage({
 
       <form
         action={createJob.bind(null, slug)}
-        className="mt-6 grid max-w-2xl grid-cols-1 gap-4 rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900 sm:grid-cols-2"
+        className="mt-6 grid max-w-2xl grid-cols-1 gap-4 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-card p-6 sm:grid-cols-2"
       >
         <label className="block sm:col-span-2">
           <span className="block text-sm font-medium">Location</span>
-          <select name="locationId" required className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800">
+          <select name="locationId" required className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm">
             {locations.length === 0 ? (
               <option value="">no locations — add one first</option>
             ) : (
@@ -76,7 +76,7 @@ export default async function NewJobPage({
 
         <label className="block">
           <span className="block text-sm font-medium">Unit (optional)</span>
-          <select name="unitId" className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800">
+          <select name="unitId" className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm">
             <option value="">— whole location —</option>
             {locations.flatMap((l) =>
               l.units.map((u) => (
@@ -90,7 +90,7 @@ export default async function NewJobPage({
 
         <label className="block">
           <span className="block text-sm font-medium">Service</span>
-          <select name="serviceType" defaultValue="TURNOVER" className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800">
+          <select name="serviceType" defaultValue="TURNOVER" className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm">
             <option value="TURNOVER">Turnover</option>
             <option value="RECURRING">Recurring</option>
             <option value="DEEP_CLEAN">Deep clean</option>
@@ -105,7 +105,7 @@ export default async function NewJobPage({
             name="scheduledStart"
             type="datetime-local"
             required
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
           />
         </label>
 
@@ -117,7 +117,7 @@ export default async function NewJobPage({
             defaultValue={120}
             min={15}
             step={15}
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
           />
         </label>
 
@@ -126,7 +126,7 @@ export default async function NewJobPage({
           <select
             name="employeeIds"
             multiple
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
             size={4}
           >
             {employees.map((e) => (
@@ -143,14 +143,14 @@ export default async function NewJobPage({
           <textarea
             name="notes"
             rows={3}
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
           />
         </label>
 
         <div className="sm:col-span-2">
           <button
             type="submit"
-            className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+            className="rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
           >
             Schedule job
           </button>

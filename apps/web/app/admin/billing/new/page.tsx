@@ -34,14 +34,14 @@ export default async function NewBillingClosePage() {
 
       <form
         action={runClose}
-        className="mt-6 max-w-md space-y-4 rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900"
+        className="mt-6 max-w-md space-y-4 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-card p-6"
       >
         <label className="block">
           <span className="block text-sm font-medium">Tenant</span>
           <select
             name="tenantSlug"
             required
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
           >
             {tenants
               .filter((t) => t.profitShareConfig)
@@ -66,13 +66,13 @@ export default async function NewBillingClosePage() {
             type="month"
             required
             defaultValue={defaultYm}
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
           />
         </label>
 
         <button
           type="submit"
-          className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+          className="rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
         >
           Run close + create billing event
         </button>

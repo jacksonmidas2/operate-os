@@ -97,7 +97,7 @@ export default async function CheckoutPage({
 
         <button
           type="submit"
-          className="rounded-lg bg-brand-600 px-6 py-3 text-base font-semibold text-white hover:bg-brand-700"
+          className="rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-6 py-3 text-base font-semibold text-white hover:from-accent-400 hover:to-accent-600"
         >
           Confirm booking — pay deposit
         </button>
@@ -107,14 +107,14 @@ export default async function CheckoutPage({
         </p>
       </form>
 
-      <aside className="h-fit rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+      <aside className="h-fit rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-card p-6">
         <h2 className="text-base font-semibold">Order summary</h2>
         <dl className="mt-3 space-y-2 text-sm">
           <Row label="Bedrooms" value={sp.bedrooms ?? "2"} />
           <Row label="Bathrooms" value={sp.bathrooms ?? "1"} />
           <Row label="Square feet" value={sp.sqft ?? "900"} />
         </dl>
-        <hr className="my-4 border-gray-200 dark:border-gray-700" />
+        <hr className="my-4 border-white/10" />
         <dl className="space-y-2 text-sm">
           <Row label="Total" value={`$${(price / 100).toFixed(2)}`} bold />
           <Row label="Due today (50%)" value={`$${(deposit / 100).toFixed(2)}`} />
@@ -143,7 +143,7 @@ function Field({
         name={name}
         type={type}
         required={required}
-        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-700 dark:bg-gray-800"
+        className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm focus:border-accent-500/60 focus:outline-none focus:ring-1 focus:ring-accent-500/60"
       />
     </label>
   );

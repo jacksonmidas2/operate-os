@@ -2,20 +2,20 @@ export default function BookHomePage() {
   return (
     <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
       <div>
-        <p className="text-sm font-semibold uppercase tracking-wider text-brand-600">
+        <p className="text-sm font-semibold uppercase tracking-wider text-accent-400">
           Track B — Marketplace
         </p>
         <h1 className="mt-2 text-4xl font-semibold tracking-tight">
           A spotless home, on demand.
         </h1>
-        <p className="mt-4 max-w-prose text-gray-600 dark:text-gray-300">
+        <p className="mt-4 max-w-prose text-gray-300">
           Vetted cleaners. Transparent pricing. Real-time tracking. Book in
           under 60 seconds.
         </p>
 
         <a
           href="/book/quote"
-          className="mt-6 inline-block rounded-lg bg-brand-600 px-6 py-3 text-base font-medium text-white shadow hover:bg-brand-700"
+          className="mt-6 inline-block rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-6 py-3 text-base font-medium text-white shadow hover:from-accent-400 hover:to-accent-600"
         >
           Get an instant quote
         </a>
@@ -26,7 +26,7 @@ export default function BookHomePage() {
         </p>
       </div>
 
-      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+      <div className="rounded-2xl border border-white/10 bg-white p-6 shadow-sm">
         <h2 className="text-lg font-semibold">How it works</h2>
         <ol className="mt-4 space-y-3 text-sm">
           <li>

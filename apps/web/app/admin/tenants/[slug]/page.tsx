@@ -27,7 +27,7 @@ export default async function TenantDetailPage({
         actions={
           <a
             href={`/t/${tenant.slug}`}
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+            className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm font-medium hover:bg-gray-50"
           >
             Open tenant app →
           </a>
@@ -52,13 +52,13 @@ export default async function TenantDetailPage({
           <h2 className="text-lg font-semibold">Profit-share config</h2>
           <Link
             href={`/admin/tenants/${slug}/profit-share`}
-            className="text-sm text-brand-600 hover:underline"
+            className="text-sm text-accent-400 hover:text-accent-300"
           >
             {tenant.profitShareConfig ? "Edit" : "Configure"} →
           </Link>
         </div>
         {tenant.profitShareConfig ? (
-          <dl className="mt-3 grid grid-cols-1 gap-3 rounded-xl border border-gray-200 p-4 sm:grid-cols-2 dark:border-gray-800">
+          <dl className="mt-3 grid grid-cols-1 gap-3 rounded-xl border border-white/10 p-4 sm:grid-cols-2">
             <Row
               label="Split"
               value={`${tenant.profitShareConfig.splitBasisPoints / 100}%`}
@@ -88,7 +88,7 @@ export default async function TenantDetailPage({
             />
           </dl>
         ) : (
-          <p className="mt-3 rounded-xl border border-dashed border-gray-300 p-4 text-sm text-gray-500 dark:border-gray-700">
+          <p className="mt-3 rounded-xl border border-dashed border-white/10 p-4 text-sm text-gray-500">
             No profit-share contract yet — this tenant isn't billed.
           </p>
         )}
@@ -96,7 +96,7 @@ export default async function TenantDetailPage({
 
       <section className="mt-8">
         <h2 className="text-lg font-semibold">Members</h2>
-        <ul className="mt-3 divide-y divide-gray-200 rounded-xl border border-gray-200 dark:divide-gray-800 dark:border-gray-800">
+        <ul className="mt-3 divide-y divide-white/5 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md">
           {tenant.tenantUsers.length === 0 ? (
             <li className="p-4 text-sm text-gray-500">No members yet.</li>
           ) : (
@@ -112,7 +112,7 @@ export default async function TenantDetailPage({
                   <div className="text-xs text-gray-500">{tu.user.email}</div>
                 </div>
                 <div className="text-xs">
-                  <span className="rounded-full bg-gray-100 px-2 py-0.5 font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+                  <span className="rounded-full bg-white/[0.06] px-2 py-0.5 font-medium text-gray-200">
                     {tu.role}
                   </span>
                 </div>

@@ -50,9 +50,9 @@ export default async function ProfitSharesPage() {
 
       <section className="mt-8">
         <h2 className="text-lg font-semibold">Active contracts</h2>
-        <div className="mt-3 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+        <div className="mt-3 overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md shadow-card">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-left text-xs uppercase text-gray-500 dark:bg-gray-900">
+            <thead className="bg-white/[0.04] text-left text-[10px] uppercase tracking-wider text-gray-400">
               <tr>
                 <th className="px-4 py-2">Tenant</th>
                 <th className="px-4 py-2">Split</th>
@@ -63,7 +63,7 @@ export default async function ProfitSharesPage() {
                 <th className="px-4 py-2"></th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+            <tbody className="divide-y divide-white/5">
               {configured.length === 0 ? (
                 <tr>
                   <td
@@ -80,12 +80,12 @@ export default async function ProfitSharesPage() {
                   return (
                     <tr
                       key={t.id}
-                      className="hover:bg-gray-50 dark:hover:bg-gray-900/50"
+                      className="hover:bg-white/[0.03]"
                     >
                       <td className="px-4 py-3">
                         <Link
                           href={`/admin/tenants/${t.slug}`}
-                          className="font-medium text-brand-600 hover:underline"
+                          className="font-medium text-accent-400 hover:text-accent-300"
                         >
                           {t.legalName}
                         </Link>
@@ -111,7 +111,7 @@ export default async function ProfitSharesPage() {
                       <td className="px-4 py-3 text-right">
                         <Link
                           href={`/admin/tenants/${t.slug}/profit-share`}
-                          className="text-xs text-brand-600 hover:underline"
+                          className="text-xs text-accent-400 hover:text-accent-300"
                         >
                           Edit →
                         </Link>
@@ -131,7 +131,7 @@ export default async function ProfitSharesPage() {
           <p className="mt-1 text-sm text-gray-500">
             These tenants are on the platform but aren't being billed.
           </p>
-          <ul className="mt-3 divide-y divide-gray-200 rounded-xl border border-gray-200 dark:divide-gray-800 dark:border-gray-800">
+          <ul className="mt-3 divide-y divide-white/5 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md">
             {unconfigured.map((t) => (
               <li
                 key={t.id}
@@ -143,7 +143,7 @@ export default async function ProfitSharesPage() {
                 </div>
                 <Link
                   href={`/admin/tenants/${t.slug}/profit-share`}
-                  className="rounded-lg bg-brand-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-brand-700"
+                  className="rounded-lg bg-brand-600 px-3 py-1.5 text-xs font-medium text-white hover:from-accent-400 hover:to-accent-600"
                 >
                   Configure →
                 </Link>

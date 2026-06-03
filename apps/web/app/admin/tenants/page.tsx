@@ -19,16 +19,16 @@ export default async function AdminTenantsPage() {
         actions={
           <Link
             href="/admin/tenants/new"
-            className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+            className="rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
           >
             + New tenant
           </Link>
         }
       />
 
-      <div className="mt-6 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+      <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md shadow-card">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 text-left text-xs uppercase text-gray-500 dark:bg-gray-900">
+          <thead className="bg-white/[0.04] text-left text-[10px] uppercase tracking-wider text-gray-400">
             <tr>
               <th className="px-4 py-2">Slug</th>
               <th className="px-4 py-2">Legal name</th>
@@ -38,13 +38,13 @@ export default async function AdminTenantsPage() {
               <th className="px-4 py-2">Billing events</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+          <tbody className="divide-y divide-white/5">
             {tenants.map((t) => (
-              <tr key={t.id} className="hover:bg-gray-50 dark:hover:bg-gray-900/50">
+              <tr key={t.id} className="hover:bg-white/[0.03]">
                 <td className="px-4 py-3 font-mono">
                   <Link
                     href={`/admin/tenants/${t.slug}`}
-                    className="text-brand-600 hover:underline"
+                    className="text-accent-400 hover:text-accent-300"
                   >
                     {t.slug}
                   </Link>
@@ -77,7 +77,7 @@ function StatusPill({ status }: { status: string }) {
       ? "bg-green-100 text-green-900 dark:bg-green-900/30 dark:text-green-200"
       : status === "SUSPENDED"
         ? "bg-yellow-100 text-yellow-900 dark:bg-yellow-900/30 dark:text-yellow-200"
-        : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300";
+        : "bg-white/[0.06] text-gray-200";
   return (
     <span className={`rounded-full px-2 py-0.5 text-xs ${color}`}>
       {status}

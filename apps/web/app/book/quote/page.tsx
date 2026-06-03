@@ -38,7 +38,7 @@ export default async function QuotePage({
         <h1 className="text-3xl font-semibold tracking-tight">
           Tell us about your space
         </h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-gray-400">
           Adjust the sliders. The quote updates instantly.
         </p>
 
@@ -48,15 +48,15 @@ export default async function QuotePage({
           <SliderField name="sqft" label="Square feet" min={300} max={4000} step={50} defaultValue={sqft} />
           <button
             type="submit"
-            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+            className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-4 py-2 text-sm font-medium hover:bg-gray-50"
           >
             Recalculate
           </button>
         </form>
       </div>
 
-      <div className="rounded-2xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
-        <div className="text-sm font-medium uppercase tracking-wider text-brand-600">
+      <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-card p-8">
+        <div className="text-sm font-medium uppercase tracking-wider text-accent-400">
           Your quote
         </div>
         <div className="mt-2 text-5xl font-semibold">${(cents / 100).toFixed(0)}</div>
@@ -70,7 +70,7 @@ export default async function QuotePage({
             pathname: "/book/checkout",
             query: { bedrooms, bathrooms, sqft, price: cents },
           }}
-          className="mt-6 block w-full rounded-lg bg-brand-600 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-brand-700"
+          className="mt-6 block w-full rounded-lg bg-brand-600 px-4 py-3 text-center text-sm font-semibold text-white hover:from-accent-400 hover:to-accent-600"
         >
           Continue to checkout →
         </Link>
@@ -103,7 +103,7 @@ function SliderField({
     <label className="block">
       <div className="flex items-center justify-between text-sm font-medium">
         <span>{label}</span>
-        <span className="font-mono text-brand-600">{defaultValue}</span>
+        <span className="font-mono text-accent-400">{defaultValue}</span>
       </div>
       <input
         name={name}

@@ -53,7 +53,7 @@ export default async function OnboardingHomePage({
         description="Walk through 10 sections to fully set up your business."
       />
 
-      <section className="mt-6 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
+      <section className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-card p-5">
         <div className="flex items-center justify-between">
           <div>
             <div className="text-sm font-medium">
@@ -63,9 +63,9 @@ export default async function OnboardingHomePage({
               Each section saves to your tenant database.
             </div>
           </div>
-          <div className="text-3xl font-semibold text-brand-600">{pct}%</div>
+          <div className="text-3xl font-semibold text-accent-400">{pct}%</div>
         </div>
-        <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+        <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-white/[0.06]">
           <div
             className="h-full bg-brand-500 transition-all"
             style={{ width: `${pct}%` }}
@@ -78,7 +78,7 @@ export default async function OnboardingHomePage({
           <li key={s.key}>
             <Link
               href={`/t/${slug}/onboarding/${s.href}`}
-              className="flex items-center justify-between rounded-xl border border-gray-200 bg-white p-4 transition hover:border-brand-500 dark:border-gray-800 dark:bg-gray-900"
+              className="flex items-center justify-between rounded-xl border border-white/10 bg-white p-4 transition hover:border-brand-500"
             >
               <div>
                 <div className="font-medium">{s.label}</div>

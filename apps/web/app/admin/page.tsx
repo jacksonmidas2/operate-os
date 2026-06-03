@@ -22,7 +22,7 @@ export default async function AdminOverviewPage() {
         actions={
           <Link
             href="/admin/tenants/new"
-            className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+            className="rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
           >
             + New tenant
           </Link>
@@ -37,9 +37,9 @@ export default async function AdminOverviewPage() {
 
       <section className="mt-8">
         <h2 className="text-lg font-semibold">Recent tenants</h2>
-        <div className="mt-3 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+        <div className="mt-3 overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md shadow-card">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-left text-xs uppercase text-gray-500 dark:bg-gray-900">
+            <thead className="bg-white/[0.04] text-left text-[10px] uppercase tracking-wider text-gray-400">
               <tr>
                 <th className="px-4 py-2">Slug</th>
                 <th className="px-4 py-2">Legal name</th>
@@ -47,7 +47,7 @@ export default async function AdminOverviewPage() {
                 <th className="px-4 py-2">Created</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+            <tbody className="divide-y divide-white/5">
               {recentTenants.length === 0 ? (
                 <tr>
                   <td
@@ -55,7 +55,7 @@ export default async function AdminOverviewPage() {
                     className="px-4 py-6 text-center text-gray-500"
                   >
                     No tenants yet — provision the first one with{" "}
-                    <code className="rounded bg-gray-100 px-1 dark:bg-gray-800">
+                    <code className="rounded bg-white/[0.06] px-1">
                       npm run provision-tenant
                     </code>
                     .

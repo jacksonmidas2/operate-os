@@ -107,7 +107,7 @@ export default async function AICopilotPage({
             <form action={reset.bind(null, slug)}>
               <button
                 type="submit"
-                className="rounded-lg border border-gray-300 px-3 py-2 text-sm hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm hover:bg-gray-50"
               >
                 New chat
               </button>
@@ -124,7 +124,7 @@ export default async function AICopilotPage({
 
       <section className="mt-6 space-y-3">
         {turns.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-gray-300 p-6 dark:border-gray-700">
+          <div className="rounded-xl border border-dashed border-white/10 p-6">
             <p className="text-sm text-gray-500">Try one of these to start:</p>
             <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
               {SUGGESTIONS.map((s) => (
@@ -133,7 +133,7 @@ export default async function AICopilotPage({
                     <input type="hidden" name="question" value={s} />
                     <button
                       type="submit"
-                      className="w-full rounded-lg border border-gray-200 p-3 text-left text-sm hover:border-brand-500 hover:bg-brand-50/30 dark:border-gray-800 dark:hover:bg-brand-900/20"
+                      className="w-full rounded-lg border border-white/10 p-3 text-left text-sm hover:border-brand-500 hover:bg-brand-50/30 dark:hover:bg-brand-900/20"
                     >
                       {s}
                     </button>
@@ -149,7 +149,7 @@ export default async function AICopilotPage({
 
       <form
         action={ask.bind(null, slug)}
-        className="sticky bottom-4 mt-6 flex gap-2 rounded-2xl border border-gray-200 bg-white p-2 shadow-sm dark:border-gray-800 dark:bg-gray-900"
+        className="sticky bottom-4 mt-6 flex gap-2 rounded-2xl border border-white/10 bg-white p-2 shadow-sm"
       >
         <input
           name="question"
@@ -159,7 +159,7 @@ export default async function AICopilotPage({
         />
         <button
           type="submit"
-          className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+          className="rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
         >
           Ask
         </button>
@@ -181,7 +181,7 @@ function TurnView({ turn }: { turn: Turn }) {
   }
   if (turn.role === "tool") {
     return (
-      <details className="rounded-xl border border-gray-200 p-3 text-xs dark:border-gray-800">
+      <details className="rounded-xl border border-white/10 p-3 text-xs">
         <summary className="cursor-pointer font-medium text-gray-500">
           🔧 tool: {turn.toolName}
         </summary>
@@ -192,7 +192,7 @@ function TurnView({ turn }: { turn: Turn }) {
     );
   }
   return (
-    <div className="rounded-xl border border-gray-200 p-3 text-sm dark:border-gray-800">
+    <div className="rounded-xl border border-white/10 p-3 text-sm">
       <div className="text-xs font-medium uppercase tracking-wide text-gray-500">
         Co-pilot
       </div>

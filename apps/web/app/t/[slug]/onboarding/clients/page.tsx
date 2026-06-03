@@ -43,7 +43,7 @@ export default async function ClientsOnboardingPage({
       <section className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <form
           action={add}
-          className="space-y-3 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900 lg:col-span-1"
+          className="space-y-3 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-card p-5 lg:col-span-1"
         >
           <h2 className="text-base font-semibold">Add client</h2>
           <Field label="Business name" name="businessName" required />
@@ -52,7 +52,7 @@ export default async function ClientsOnboardingPage({
           <Field label="Contact phone" name="contactPhone" />
           <button
             type="submit"
-            className="w-full rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+            className="w-full rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
           >
             Add client
           </button>
@@ -60,14 +60,14 @@ export default async function ClientsOnboardingPage({
 
         <ul className="space-y-3 lg:col-span-2">
           {clients.length === 0 ? (
-            <li className="rounded-xl border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500 dark:border-gray-700">
+            <li className="rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-gray-500">
               No clients yet — add your first on the left.
             </li>
           ) : (
             clients.map((c) => (
               <li
                 key={c.id}
-                className="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900"
+                className="rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-4"
               >
                 <div className="flex items-start justify-between">
                   <div>
@@ -79,7 +79,7 @@ export default async function ClientsOnboardingPage({
                   </div>
                   <Link
                     href={`/t/${slug}/clients/${c.id}`}
-                    className="text-sm text-brand-600 hover:underline"
+                    className="text-sm text-accent-400 hover:text-accent-300"
                   >
                     Manage →
                   </Link>
@@ -115,7 +115,7 @@ function Field({
         name={name}
         type={type}
         required={required}
-        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm dark:border-gray-700 dark:bg-gray-800"
+        className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm shadow-sm"
       />
     </label>
   );

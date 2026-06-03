@@ -15,7 +15,7 @@ export default async function AdminLayout({
     return (
       <main className="mx-auto max-w-2xl px-6 py-20 text-center">
         <h1 className="text-2xl font-semibold">Access denied</h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-gray-400">
           The super-admin console is restricted to OperateHQ staff.
         </p>
       </main>

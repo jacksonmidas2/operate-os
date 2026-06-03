@@ -62,7 +62,7 @@ export default async function EmployeesOnboardingPage({
       <section className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <form
           action={add}
-          className="space-y-3 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900 lg:col-span-1"
+          className="space-y-3 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-card p-5 lg:col-span-1"
         >
           <h2 className="text-base font-semibold">Add employee</h2>
           <div className="grid grid-cols-2 gap-2">
@@ -100,7 +100,7 @@ export default async function EmployeesOnboardingPage({
           />
           <button
             type="submit"
-            className="w-full rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+            className="w-full rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
           >
             Add employee
           </button>
@@ -108,14 +108,14 @@ export default async function EmployeesOnboardingPage({
 
         <ul className="space-y-2 lg:col-span-2">
           {employees.length === 0 ? (
-            <li className="rounded-xl border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500 dark:border-gray-700">
+            <li className="rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-gray-500">
               No employees yet.
             </li>
           ) : (
             employees.map((e) => (
               <li
                 key={e.id}
-                className="flex items-center justify-between rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900"
+                className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-4"
               >
                 <div>
                   <div className="font-medium">
@@ -155,7 +155,7 @@ function Field({
         name={name}
         type={type}
         required={required}
-        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm dark:border-gray-700 dark:bg-gray-800"
+        className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm shadow-sm"
       />
     </label>
   );
@@ -175,7 +175,7 @@ function Select({
       <span className="block text-sm font-medium">{label}</span>
       <select
         name={name}
-        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm dark:border-gray-700 dark:bg-gray-800"
+        className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm shadow-sm"
       >
         {options.map((o) => (
           <option key={o} value={o}>

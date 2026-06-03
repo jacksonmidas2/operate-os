@@ -59,7 +59,7 @@ export default async function TenantLayout({
     return (
       <main className="mx-auto max-w-2xl px-6 py-20 text-center">
         <h1 className="text-2xl font-semibold">No access to this tenant</h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-gray-400">
           You are signed in but not a member of {tenant.legalName}.
         </p>
       </main>

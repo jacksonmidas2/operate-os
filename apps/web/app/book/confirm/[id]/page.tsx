@@ -27,12 +27,12 @@ export default async function BookingConfirmedPage({
       <div className="rounded-2xl border border-green-200 bg-green-50 p-6 dark:border-green-900/40 dark:bg-green-900/20">
         <div className="text-4xl">✓</div>
         <h1 className="mt-2 text-2xl font-semibold">Booking confirmed</h1>
-        <p className="mt-1 text-sm text-gray-700 dark:text-gray-300">
+        <p className="mt-1 text-sm text-gray-200">
           We've got it on the schedule. A cleaner will be assigned shortly.
         </p>
       </div>
 
-      <dl className="mt-6 divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white text-sm dark:divide-gray-800 dark:border-gray-800 dark:bg-gray-900">
+      <dl className="mt-6 divide-y divide-white/5 rounded-2xl border border-white/10 bg-white text-sm">
         <Row label="Booking ID" value={booking.id} />
         <Row label="Customer" value={`${booking.customer?.name ?? "—"} (${booking.customer?.email ?? "—"})`} />
         <Row

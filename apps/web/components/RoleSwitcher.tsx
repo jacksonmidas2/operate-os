@@ -51,7 +51,7 @@ export async function RoleSwitcher({
   return (
     <form
       action={setSelection}
-      className="border-t border-gray-200 p-3 dark:border-gray-800"
+      className="border-t border-white/10 p-3"
     >
       <label className="block text-xs font-medium uppercase tracking-wide text-gray-500">
         View as (super-admin)
@@ -59,7 +59,7 @@ export async function RoleSwitcher({
       <select
         name="selection"
         defaultValue={currentValue}
-        className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-xs dark:border-gray-700 dark:bg-gray-800"
+        className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-2 py-1.5 text-xs"
       >
         <optgroup label="Operator">
           <option value="OWNER">Owner</option>
@@ -98,7 +98,7 @@ export async function RoleSwitcher({
       <div className="mt-2 flex gap-1">
         <button
           type="submit"
-          className="flex-1 rounded-lg bg-brand-600 px-2 py-1.5 text-xs font-medium text-white hover:bg-brand-700"
+          className="flex-1 rounded-lg bg-brand-600 px-2 py-1.5 text-xs font-medium text-white hover:from-accent-400 hover:to-accent-600"
         >
           Set view
         </button>
@@ -107,7 +107,7 @@ export async function RoleSwitcher({
             type="submit"
             name="selection"
             value="RESET"
-            className="rounded-lg border border-gray-300 px-2 py-1.5 text-xs text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+            className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-2 py-1.5 text-xs text-gray-200 hover:bg-white/[0.06]"
           >
             Reset
           </button>
@@ -140,7 +140,7 @@ export async function ImpersonationBanner({
           : "operator (owner)";
 
   return (
-    <div className="mb-4 rounded-lg border border-purple-200 bg-purple-50 px-3 py-2 text-xs text-purple-900 dark:border-purple-900/40 dark:bg-purple-900/20 dark:text-purple-100">
+    <div className="mb-4 rounded-lg border border-accent-500/30 bg-accent-500/10 px-3 py-2 text-xs text-accent-200 backdrop-blur-md">
       🕶 Viewing <strong>{tenantName}</strong> as <strong>{subject}</strong> via super-admin override.
     </div>
   );

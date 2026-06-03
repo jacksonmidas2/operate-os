@@ -77,7 +77,7 @@ export default async function ClientDetailPage({
           {client.locations.map((loc) => (
             <li
               key={loc.id}
-              className="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900"
+              className="rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-4"
             >
               <div className="flex items-start justify-between">
                 <div>
@@ -99,7 +99,7 @@ export default async function ClientDetailPage({
                     {loc.units.map((u) => (
                       <li
                         key={u.id}
-                        className="rounded-lg border border-gray-200 px-3 py-2 text-sm dark:border-gray-700"
+                        className="rounded-lg border border-white/10 px-3 py-2 text-sm"
                       >
                         <div className="font-mono">{u.unitNumber}</div>
                         <div className="text-xs text-gray-500">
@@ -118,14 +118,14 @@ export default async function ClientDetailPage({
                     name="unitNumber"
                     required
                     placeholder="Unit #"
-                    className="flex-1 rounded-lg border border-gray-300 px-3 py-1.5 text-sm dark:border-gray-700 dark:bg-gray-800"
+                    className="flex-1 rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-1.5 text-sm"
                   />
                   <input
                     name="bedroomCount"
                     type="number"
                     min="0"
                     placeholder="BR"
-                    className="w-16 rounded-lg border border-gray-300 px-3 py-1.5 text-sm dark:border-gray-700 dark:bg-gray-800"
+                    className="w-16 rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-1.5 text-sm"
                   />
                   <button
                     type="submit"
@@ -141,15 +141,15 @@ export default async function ClientDetailPage({
 
         <form
           action={addLocation.bind(null, slug, id)}
-          className="mt-4 grid grid-cols-1 gap-2 rounded-xl border border-dashed border-gray-300 p-4 sm:grid-cols-6 dark:border-gray-700"
+          className="mt-4 grid grid-cols-1 gap-2 rounded-xl border border-dashed border-white/10 p-4 sm:grid-cols-6"
         >
-          <input name="name" required placeholder="Location name" className="rounded-lg border border-gray-300 px-3 py-2 text-sm sm:col-span-2 dark:border-gray-700 dark:bg-gray-800" />
-          <input name="addressLine1" required placeholder="Address" className="rounded-lg border border-gray-300 px-3 py-2 text-sm sm:col-span-2 dark:border-gray-700 dark:bg-gray-800" />
-          <input name="city" required placeholder="City" className="rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800" />
+          <input name="name" required placeholder="Location name" className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm sm:col-span-2" />
+          <input name="addressLine1" required placeholder="Address" className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm sm:col-span-2" />
+          <input name="city" required placeholder="City" className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm" />
           <div className="flex gap-2">
-            <input name="state" required placeholder="ST" className="w-14 rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800" />
-            <input name="postalCode" required placeholder="ZIP" className="w-24 rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800" />
-            <button type="submit" className="rounded-lg bg-brand-600 px-3 py-2 text-sm font-medium text-white hover:bg-brand-700">
+            <input name="state" required placeholder="ST" className="w-14 rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm" />
+            <input name="postalCode" required placeholder="ZIP" className="w-24 rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm" />
+            <button type="submit" className="rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-3 py-2 text-sm font-medium text-white hover:from-accent-400 hover:to-accent-600">
               + Add
             </button>
           </div>
@@ -158,13 +158,13 @@ export default async function ClientDetailPage({
 
       <section className="mt-8">
         <h2 className="text-lg font-semibold">Recent invoices</h2>
-        <ul className="mt-3 divide-y divide-gray-200 rounded-xl border border-gray-200 dark:divide-gray-800 dark:border-gray-800">
+        <ul className="mt-3 divide-y divide-white/5 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md">
           {client.invoices.length === 0 ? (
             <li className="p-4 text-sm text-gray-500">No invoices yet.</li>
           ) : (
             client.invoices.map((inv) => (
               <li key={inv.id} className="flex items-center justify-between p-3 text-sm">
-                <Link href={`/t/${slug}/invoices/${inv.number}`} className="font-mono text-brand-600 hover:underline">
+                <Link href={`/t/${slug}/invoices/${inv.number}`} className="font-mono text-accent-400 hover:text-accent-300">
                   {inv.number}
                 </Link>
                 <div className="text-gray-500">

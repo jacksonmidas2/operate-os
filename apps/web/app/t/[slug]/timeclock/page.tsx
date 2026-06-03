@@ -72,7 +72,7 @@ export default async function TimeclockPage({
       <section className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
         <form
           action={clockIn.bind(null, slug)}
-          className="space-y-3 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900"
+          className="space-y-3 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-card p-5"
         >
           <h2 className="text-base font-semibold">Clock in</h2>
           <label className="block">
@@ -81,7 +81,7 @@ export default async function TimeclockPage({
               name="employeeId"
               required
               defaultValue={impersonatedEmployeeId ?? undefined}
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+              className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
             >
               {employees.map((e) => (
                 <option key={e.id} value={e.id}>
@@ -97,18 +97,18 @@ export default async function TimeclockPage({
           </label>
           <button
             type="submit"
-            className="w-full rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+            className="w-full rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
           >
             Clock in now
           </button>
         </form>
 
-        <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
+        <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-card p-5">
           <h2 className="text-base font-semibold">Open shifts</h2>
           {openEntries.length === 0 ? (
             <p className="mt-3 text-sm text-gray-500">No one is clocked in.</p>
           ) : (
-            <ul className="mt-3 divide-y divide-gray-100 dark:divide-gray-800">
+            <ul className="mt-3 divide-y divide-white/5">
               {openEntries.map((e) => (
                 <li key={e.id} className="flex items-center justify-between py-3">
                   <div>
@@ -123,7 +123,7 @@ export default async function TimeclockPage({
                   <form action={clockOut.bind(null, slug, e.id)}>
                     <button
                       type="submit"
-                      className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm font-medium hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                      className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-1.5 text-sm font-medium hover:bg-gray-50"
                     >
                       Clock out
                     </button>

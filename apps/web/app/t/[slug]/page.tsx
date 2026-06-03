@@ -125,7 +125,7 @@ async function EmployeeTodayView({
       ) : null}
 
       {jobs.length === 0 ? (
-        <p className="mt-6 rounded-xl border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500 dark:border-gray-700">
+        <p className="mt-6 rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-gray-500">
           {employeeId
             ? "No jobs scheduled for today."
             : "No employee selected — use the sidebar switcher."}
@@ -135,7 +135,7 @@ async function EmployeeTodayView({
           {jobs.map((j) => (
             <li
               key={j.id}
-              className="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900"
+              className="rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-4"
             >
               <div className="flex items-start justify-between">
                 <div>
@@ -150,12 +150,12 @@ async function EmployeeTodayView({
                     {j.unit ? ` · Unit ${j.unit.unitNumber}` : ""}
                   </div>
                 </div>
-                <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs dark:bg-gray-800">
+                <span className="rounded-full bg-white/[0.06] px-2 py-0.5 text-xs text-gray-200">
                   {j.status.toLowerCase().replace("_", " ")}
                 </span>
               </div>
               {j.notes ? (
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">{j.notes}</p>
+                <p className="mt-2 text-sm text-gray-400">{j.notes}</p>
               ) : null}
             </li>
           ))}
@@ -196,7 +196,7 @@ async function CustomerHomeView({
       />
 
       {bookings.length === 0 ? (
-        <p className="mt-6 rounded-xl border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500 dark:border-gray-700">
+        <p className="mt-6 rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-gray-500">
           {customerId ? "No bookings yet." : "No customer selected."}
         </p>
       ) : (
@@ -204,7 +204,7 @@ async function CustomerHomeView({
           {bookings.map((b) => (
             <li
               key={b.id}
-              className="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900"
+              className="rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-4"
             >
               <div className="flex items-start justify-between">
                 <div>

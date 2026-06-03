@@ -63,7 +63,7 @@ export default async function ProfitSharePage({
 
       <form
         action={save}
-        className="mt-6 max-w-xl space-y-4 rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900"
+        className="mt-6 max-w-xl space-y-4 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-card p-6"
       >
         <label className="block">
           <span className="block text-sm font-medium">Split (%)</span>
@@ -74,7 +74,7 @@ export default async function ProfitSharePage({
             min="0"
             max="100"
             defaultValue={cfg ? cfg.splitBasisPoints / 100 : 40}
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-700 dark:bg-gray-800"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm focus:border-accent-500/60 focus:outline-none focus:ring-1 focus:ring-accent-500/60"
           />
         </label>
 
@@ -83,7 +83,7 @@ export default async function ProfitSharePage({
           <select
             name="basis"
             defaultValue={cfg?.basis ?? "NET_PROFIT"}
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm dark:border-gray-700 dark:bg-gray-800"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm shadow-sm"
           >
             <option value="NET_PROFIT">Net profit</option>
             <option value="GROSS_REVENUE">Gross revenue</option>
@@ -100,7 +100,7 @@ export default async function ProfitSharePage({
             type="number"
             min="0"
             defaultValue={cfg?.buyoutMultiple ?? 24}
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm dark:border-gray-700 dark:bg-gray-800"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm shadow-sm"
           />
         </label>
 
@@ -112,7 +112,7 @@ export default async function ProfitSharePage({
             step="0.01"
             min="0"
             defaultValue={cfg ? cfg.setupFeeCents / 100 : 0}
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm dark:border-gray-700 dark:bg-gray-800"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm shadow-sm"
           />
         </label>
 
@@ -127,13 +127,13 @@ export default async function ProfitSharePage({
                 ? cfg.startDate.toISOString().slice(0, 10)
                 : new Date().toISOString().slice(0, 10)
             }
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm dark:border-gray-700 dark:bg-gray-800"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm shadow-sm"
           />
         </label>
 
         <button
           type="submit"
-          className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+          className="rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
         >
           Save profit-share
         </button>

@@ -83,7 +83,7 @@ export default async function AdminUsersPage() {
       <section className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <form
           action={inviteUser}
-          className="space-y-3 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900"
+          className="space-y-3 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-card p-5"
         >
           <h2 className="text-base font-semibold">Invite by email</h2>
           <Field label="Email" name="email" type="email" required />
@@ -98,7 +98,7 @@ export default async function AdminUsersPage() {
             ]}
           />
 
-          <hr className="border-gray-200 dark:border-gray-700" />
+          <hr className="border-white/10" />
           <p className="text-xs text-gray-500">Optionally add to a tenant:</p>
           <SelectField
             label="Tenant"
@@ -123,7 +123,7 @@ export default async function AdminUsersPage() {
 
           <button
             type="submit"
-            className="w-full rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+            className="w-full rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
           >
             Invite + assign
           </button>
@@ -139,7 +139,7 @@ export default async function AdminUsersPage() {
             {users.map((u) => (
               <li
                 key={u.id}
-                className="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900"
+                className="rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-4"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
@@ -174,14 +174,14 @@ export default async function AdminUsersPage() {
                     <select
                       name="role"
                       defaultValue={u.globalRole}
-                      className="rounded-lg border border-gray-300 px-2 py-1 text-xs dark:border-gray-700 dark:bg-gray-800"
+                      className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-2 py-1 text-xs"
                     >
                       <option value="NONE">NONE</option>
                       <option value="SUPER_ADMIN">SUPER_ADMIN</option>
                     </select>
                     <button
                       type="submit"
-                      className="rounded-lg border border-gray-300 px-2 py-1 text-xs font-medium hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                      className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-2 py-1 text-xs font-medium hover:bg-gray-50"
                     >
                       Set role
                     </button>
@@ -193,16 +193,16 @@ export default async function AdminUsersPage() {
                     {u.tenantUsers.map((tu) => (
                       <li
                         key={tu.id}
-                        className="flex items-center justify-between rounded-lg border border-gray-100 px-3 py-2 text-xs dark:border-gray-800"
+                        className="flex items-center justify-between rounded-lg border border-gray-100 px-3 py-2 text-xs"
                       >
                         <div className="flex items-center gap-2">
                           <Link
                             href={`/admin/tenants/${tu.tenant.slug}`}
-                            className="font-medium text-brand-600 hover:underline"
+                            className="font-medium text-accent-400 hover:text-accent-300"
                           >
                             {tu.tenant.legalName}
                           </Link>
-                          <span className="rounded-full bg-gray-100 px-2 py-0.5 dark:bg-gray-800">
+                          <span className="rounded-full bg-white/[0.06] px-2 py-0.5">
                             {tu.role}
                           </span>
                           <span className="text-gray-500">
@@ -253,7 +253,7 @@ function Field({
         name={name}
         type={type}
         required={required}
-        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+        className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
       />
     </label>
   );
@@ -276,7 +276,7 @@ function SelectField({
       <select
         name={name}
         defaultValue={defaultValue}
-        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+        className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>

@@ -72,7 +72,7 @@ export default async function InvoiceDetailPage({
         description={`${invoice.client.businessName} · ${invoice.issuedOn.toISOString().slice(0, 10)}`}
       />
 
-      <section className="mt-6 rounded-2xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+      <section className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-card p-8">
         <div className="flex items-start justify-between">
           <div>
             <h2 className="text-xl font-semibold">
@@ -116,14 +116,14 @@ export default async function InvoiceDetailPage({
 
         <table className="mt-8 w-full text-sm">
           <thead>
-            <tr className="border-b border-gray-200 dark:border-gray-700">
+            <tr className="border-b border-white/10">
               <th className="py-2 text-left font-medium">Description</th>
               <th className="py-2 text-left font-medium">Location</th>
               <th className="py-2 text-right font-medium">Qty</th>
               <th className="py-2 text-right font-medium">Total</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+          <tbody className="divide-y divide-white/5">
             {invoice.lines.map((line) => (
               <tr key={line.id}>
                 <td className="py-2">{line.description}</td>
@@ -139,7 +139,7 @@ export default async function InvoiceDetailPage({
             ))}
           </tbody>
           <tfoot>
-            <tr className="border-t border-gray-200 dark:border-gray-700">
+            <tr className="border-t border-white/10">
               <td colSpan={3} className="pt-3 text-right text-sm font-medium">Total</td>
               <td className="pt-3 text-right font-mono text-lg font-semibold">
                 ${(invoice.totalCents / 100).toFixed(2)}
@@ -164,7 +164,7 @@ export default async function InvoiceDetailPage({
       <section className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
         <div>
           <h2 className="text-lg font-semibold">Payments</h2>
-          <ul className="mt-3 divide-y divide-gray-200 rounded-xl border border-gray-200 dark:divide-gray-800 dark:border-gray-800">
+          <ul className="mt-3 divide-y divide-white/5 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md">
             {invoice.payments.length === 0 ? (
               <li className="p-4 text-sm text-gray-500">No payments yet.</li>
             ) : (
@@ -187,7 +187,7 @@ export default async function InvoiceDetailPage({
 
         <form
           action={recordPayment.bind(null, slug, invoice.id)}
-          className="space-y-3 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900"
+          className="space-y-3 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-card p-5"
         >
           <h2 className="text-base font-semibold">Record payment</h2>
           <label className="block">
@@ -198,14 +198,14 @@ export default async function InvoiceDetailPage({
               step="0.01"
               min="0"
               defaultValue={(balance / 100).toFixed(2)}
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+              className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
             />
           </label>
           <label className="block">
             <span className="block text-sm font-medium">Method</span>
             <select
               name="method"
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+              className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
             >
               <option>ZELLE</option><option>PAYPAL</option><option>STRIPE</option>
               <option>WIRE_TRANSFER</option><option>CHECK</option><option>CASH_APP</option>
@@ -217,12 +217,12 @@ export default async function InvoiceDetailPage({
             <input
               name="reference"
               placeholder="Check #, Zelle confirmation"
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-800"
+              className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
             />
           </label>
           <button
             type="submit"
-            className="w-full rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
+            className="w-full rounded-lg bg-gradient-to-br from-accent-500 to-accent-700 px-4 py-2 text-sm font-medium text-white shadow-glow hover:from-accent-400 hover:to-accent-600 transition"
           >
             Record payment
           </button>

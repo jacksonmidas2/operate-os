@@ -41,11 +41,11 @@ export default async function LedgerPage({
           />
         </div>
         {Object.keys(thisMonth.byCategory).length > 0 ? (
-          <div className="mt-4 rounded-xl border border-gray-200 p-4 dark:border-gray-800">
+          <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md p-4">
             <div className="text-xs font-medium uppercase tracking-wide text-gray-500">
               Expenses by category
             </div>
-            <ul className="mt-2 divide-y divide-gray-100 dark:divide-gray-800">
+            <ul className="mt-2 divide-y divide-white/5">
               {Object.entries(thisMonth.byCategory).map(([cat, amt]) => (
                 <li key={cat} className="flex justify-between py-1.5 text-sm">
                   <span>{cat.replace("_", " ").toLowerCase()}</span>
