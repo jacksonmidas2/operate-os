@@ -42,10 +42,6 @@ export default async function ApexHomePage() {
           />
         </div>
 
-        <p className="mt-6 text-xs text-gray-500">
-          Tip: subdomain URLs like <code>admin.localhost:3030</code> require DNS
-          setup on Windows. Path URLs above work everywhere.
-        </p>
       </div>
     </main>
   );

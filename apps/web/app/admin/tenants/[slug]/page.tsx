@@ -26,7 +26,7 @@ export default async function TenantDetailPage({
         description={`Tenant slug: ${tenant.slug} · Status: ${tenant.status}`}
         actions={
           <a
-            href={`http://${tenant.slug}.localhost:3000`}
+            href={`/t/${tenant.slug}`}
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
           >
             Open tenant app →
