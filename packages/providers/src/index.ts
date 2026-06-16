@@ -24,7 +24,9 @@ import {
   type AIProvider,
 } from "./ai";
 import { AzureAnthropicAIProvider } from "./ai/azure";
+import { GeminiAIProvider } from "./ai/gemini";
 export { AzureAnthropicAIProvider } from "./ai/azure";
+export { GeminiAIProvider } from "./ai/gemini";
 
 export interface ProviderBundle {
   payments: PaymentProvider;
@@ -41,12 +43,20 @@ export interface ProviderBundle {
  * 10/13 swap in Stripe / Twilio / Anthropic real implementations.
  */
 export function getDefaultProviders(): ProviderBundle {
+  // Priority: Gemini on Vertex AI → Gemini API key → Azure-hosted Anthropic
+  // → direct Anthropic → console stub. Gemini wins by default because it's
+  // the cheapest and lives in the same GCP project as the app.
   const ai: AIProvider =
-    process.env.AZURE_AI_FOUNDRY_ENDPOINT && process.env.AZURE_AI_FOUNDRY_KEY
-      ? new AzureAnthropicAIProvider()
-      : process.env.ANTHROPIC_API_KEY
-        ? new AnthropicAIProvider()
-        : new ConsoleAIProvider();
+    process.env.GOOGLE_GENAI_USE_VERTEXAI === "true" &&
+    process.env.GOOGLE_CLOUD_PROJECT
+      ? new GeminiAIProvider()
+      : process.env.GOOGLE_API_KEY
+        ? new GeminiAIProvider()
+        : process.env.AZURE_AI_FOUNDRY_ENDPOINT && process.env.AZURE_AI_FOUNDRY_KEY
+          ? new AzureAnthropicAIProvider()
+          : process.env.ANTHROPIC_API_KEY
+            ? new AnthropicAIProvider()
+            : new ConsoleAIProvider();
 
   const payments: PaymentProvider = process.env.STRIPE_SECRET_KEY
     ? new StripePaymentProvider()

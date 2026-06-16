@@ -32,7 +32,7 @@ export default async function BookingConfirmedPage({
         </p>
       </div>
 
-      <dl className="mt-6 divide-y divide-white/5 rounded-2xl border border-white/10 bg-white text-sm">
+      <dl className="mt-6 divide-y divide-white/5 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl text-sm">
         <Row label="Booking ID" value={booking.id} />
         <Row label="Customer" value={`${booking.customer?.name ?? "—"} (${booking.customer?.email ?? "—"})`} />
         <Row

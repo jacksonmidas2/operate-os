@@ -21,6 +21,7 @@
     "control:migrate": "npm run prisma:migrate -w @operate/db-control",
     "tenant:generate": "npm run prisma:generate -w @operate/db-tenant",
     "provision-tenant": "tsx packages/db-tenant/src/cli/provision-tenant.ts",
+    "set-custom-domain": "tsx packages/db-control/src/cli/set-custom-domain.ts",
     "seed:mm": "tsx packages/db-tenant/src/cli/seed-mm.ts",
     "seed:admin": "tsx packages/db-control/src/cli/seed-admin.ts",
     "deploy": "bash scripts/deploy.sh",

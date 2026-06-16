@@ -16,11 +16,15 @@ const OPERATOR_LINKS: ShellLink[] = [
   { label: "Jobs", href: "/jobs", icon: "🧹" },
   { label: "Dispatch", href: "/dispatch", icon: "🛰️" },
   { label: "Invoices", href: "/invoices", icon: "🧾" },
+  { label: "Reminders", href: "/reminders", icon: "🔔" },
   { label: "Employees", href: "/employees", icon: "👥" },
   { label: "Timeclock", href: "/timeclock", icon: "⏱️" },
   { label: "Ledger", href: "/ledger", icon: "📒" },
   { label: "AI co-pilot", href: "/ai", icon: "🤖" },
+  { label: "Leads", href: "/leads", icon: "📥" },
+  { label: "Public site", href: "/site", icon: "🌐" },
   { label: "Onboarding", href: "/onboarding", icon: "🪄" },
+  { label: "Settings", href: "/onboarding/business", icon: "⚙️" },
 ];
 
 const EMPLOYEE_LINKS: ShellLink[] = [

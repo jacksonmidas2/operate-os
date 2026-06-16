@@ -58,7 +58,7 @@ export default async function OnboardingSectionStub({
         </p>
         <Link
           href={`/t/${slug}/onboarding`}
-          className="mt-4 inline-block rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-4 py-2 text-sm font-medium hover:bg-gray-50"
+          className="mt-4 inline-block rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-4 py-2 text-sm font-medium hover:bg-white/[0.08]"
         >
           ← Back to checklist
         </Link>

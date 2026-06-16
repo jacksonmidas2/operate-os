@@ -27,7 +27,7 @@ export default async function TenantDetailPage({
         actions={
           <a
             href={`/t/${tenant.slug}`}
-            className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm font-medium hover:bg-gray-50"
+            className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm font-medium hover:bg-white/[0.08]"
           >
             Open tenant app →
           </a>

@@ -123,7 +123,7 @@ export default async function TimeclockPage({
                   <form action={clockOut.bind(null, slug, e.id)}>
                     <button
                       type="submit"
-                      className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-1.5 text-sm font-medium hover:bg-gray-50"
+                      className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-1.5 text-sm font-medium hover:bg-white/[0.08]"
                     >
                       Clock out
                     </button>

@@ -111,3 +111,42 @@ export function resolveTenantFromPath(
   const match = /^\/t\/([a-z0-9][a-z0-9-]*)(?:\/|$)/.exec(pathname);
   return match?.[1] ?? null;
 }
+
+/**
+ * Resolves a tenant slug from a vanity domain map (string env var).
+ *
+ * `mapEnv` is formatted as `domain1=slug1,domain2=slug2`. Pure string
+ * logic so it's safe to call from Edge middleware.
+ *
+ * Used twice in middleware:
+ *   - PUBLIC_SITE_DOMAIN_MAP → apex domain → /sites/{slug} (marketing)
+ *   - APP_DOMAIN_MAP         → ops subdomain → /t/{slug}   (internal)
+ *
+ * The DB columns on `Tenant.customDomain` (public) and `Tenant.appDomain`
+ * (internal) are the source of truth; the env vars are the runtime knobs.
+ *
+ * Whitespace around entries is ignored. Empty / malformed entries are skipped.
+ */
+export function resolveSlugFromDomainMap(
+  host: string | null | undefined,
+  mapEnv: string | null | undefined,
+): string | null {
+  if (!host || !mapEnv) return null;
+  const hostname = host.split(":")[0]?.toLowerCase();
+  if (!hostname) return null;
+
+  for (const entry of mapEnv.split(",")) {
+    const trimmed = entry.trim();
+    if (!trimmed) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq <= 0 || eq === trimmed.length - 1) continue;
+    const domain = trimmed.slice(0, eq).trim().toLowerCase();
+    const slug = trimmed.slice(eq + 1).trim();
+    if (!domain || !slug) continue;
+    if (domain === hostname) return slug;
+  }
+  return null;
+}
+
+/** @deprecated Use resolveSlugFromDomainMap. Kept for one release for callers. */
+export const resolveTenantFromCustomDomain = resolveSlugFromDomainMap;

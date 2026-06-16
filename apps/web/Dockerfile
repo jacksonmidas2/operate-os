@@ -48,7 +48,10 @@ WORKDIR /repo
 ENV NODE_ENV=production
 # Cloud Run injects PORT=8080 by default; respect it.
 ENV PORT=8080
-ENV HOSTNAME=0.0.0.0
+# Do NOT set HOSTNAME — Next.js's `next start -H 0.0.0.0` flag below
+# already binds to all interfaces, and HOSTNAME would leak into
+# NextAuth's URL fallback (was producing https://0.0.0.0:8080/... error
+# redirects when AUTH_URL was unset).
 
 RUN apt-get update -y && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
 RUN groupadd --system --gid 1001 operate \

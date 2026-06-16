@@ -41,7 +41,7 @@ export default async function ClientsListPage({
             <li key={c.id}>
               <Link
                 href={`/t/${slug}/clients/${c.id}`}
-                className="block rounded-xl border border-white/10 bg-white p-4 transition hover:border-brand-500"
+                className="block rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-4 transition hover:border-accent-500/40 hover:bg-white/[0.06]"
               >
                 <h3 className="text-base font-semibold">{c.businessName}</h3>
                 <p className="mt-0.5 text-sm text-gray-500">

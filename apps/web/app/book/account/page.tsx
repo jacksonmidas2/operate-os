@@ -21,7 +21,7 @@ export default function CustomerAccountPage() {
           </a>
           <a
             href="mailto:hello@operatehq.app"
-            className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-4 py-2 text-center text-sm hover:bg-gray-50"
+            className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-4 py-2 text-center text-sm hover:bg-white/[0.08]"
           >
             Email us for help
           </a>

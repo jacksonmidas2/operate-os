@@ -33,8 +33,8 @@ async function inviteUser(formData: FormData) {
           tenantId: tenant.id,
           userId: user.id,
           role: tenantRole,
-          status: "INVITED",
-          invitedAt: new Date(),
+          status: "ACTIVE",
+          joinedAt: new Date(),
         },
       });
     }
@@ -181,7 +181,7 @@ export default async function AdminUsersPage() {
                     </select>
                     <button
                       type="submit"
-                      className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-2 py-1 text-xs font-medium hover:bg-gray-50"
+                      className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-2 py-1 text-xs font-medium hover:bg-white/[0.08]"
                     >
                       Set role
                     </button>

@@ -598,3 +598,74 @@ enum BookingStatus {
   CANCELLED
   REFUNDED
 }
+
+// ── Public marketing site ─────────────────────────────────────────────
+// Singleton config for the tenant's public-facing marketing site
+// (rendered at the apex custom domain, e.g. mmcleaningllc.com).
+// All fields are nullable so the site can be progressively filled in.
+
+model PublicSiteConfig {
+  id                  String   @id @default(cuid())
+  tagline             String?
+  heroHeadline        String?
+  heroSubhead         String?
+  heroCtaLabel        String?  @default("Get a free quote")
+  aboutBody           String?  // markdown
+  serviceAreaText     String?  // e.g. "Orange County + Greater Los Angeles"
+  yearsInBusiness     Int?
+  brandPrimaryColor   String?  @default("#F59E0B") // amber-500
+  brandAccentColor    String?  @default("#EA580C") // orange-600
+  publicEmail         String?
+  publicPhone         String?
+  facebookUrl         String?
+  instagramUrl        String?
+  googleBusinessUrl   String?
+  yelpUrl             String?
+  published           Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PublicService {
+  id            String   @id @default(cuid())
+  name          String
+  shortDesc     String?
+  longDesc      String?
+  iconName      String?         // lucide icon hint (e.g. "Sparkles")
+  sortOrder     Int      @default(0)
+  isResidential Boolean  @default(false)
+  isCommercial  Boolean  @default(true)
+  active        Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+model Lead {
+  id              String     @id @default(cuid())
+  source          String     @default("public-site")
+  name            String
+  email           String?
+  phone           String?
+  message         String?
+  serviceInterest String?
+  addressHint     String?
+  status          LeadStatus @default(NEW)
+  notes           String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUOTED
+  WON
+  LOST
+}

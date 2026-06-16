@@ -77,12 +77,24 @@ export interface ProvisionTenantArgs {
   slug: string;
   legalName: string;
   displayName?: string;
+  customDomain?: string;
+  appDomain?: string;
 }
 
 export interface ProvisionedTenant {
   id: string;
   slug: string;
   databaseUrl: string;
+  customDomain: string | null;
+  appDomain: string | null;
+}
+
+function normalizeDomain(input: string): string {
+  return input
+    .trim()
+    .toLowerCase()
+    .replace(/^https?:\/\//, "")
+    .replace(/\/+$/, "");
 }
 
 export async function provisionTenant(
@@ -99,6 +111,25 @@ export async function provisionTenant(
     );
   }
 
+  const customDomain = args.customDomain
+    ? normalizeDomain(args.customDomain)
+    : null;
+  const appDomain = args.appDomain ? normalizeDomain(args.appDomain) : null;
+  for (const candidate of [customDomain, appDomain].filter(
+    (d): d is string => Boolean(d),
+  )) {
+    const taken = await controlPrisma.tenant.findFirst({
+      where: {
+        OR: [{ customDomain: candidate }, { appDomain: candidate }],
+      },
+    });
+    if (taken) {
+      throw new Error(
+        `Domain "${candidate}" is already in use by tenant "${taken.slug}".`,
+      );
+    }
+  }
+
   const databaseUrl = await createDatabaseIfMissing(args.slug);
   applyTenantSchema(databaseUrl);
 
@@ -108,9 +139,17 @@ export async function provisionTenant(
       legalName: args.legalName,
       displayName: args.displayName,
       databaseUrl,
+      customDomain,
+      appDomain,
       status: "ACTIVE",
     },
   });
 
-  return { id: tenant.id, slug: tenant.slug, databaseUrl };
+  return {
+    id: tenant.id,
+    slug: tenant.slug,
+    databaseUrl,
+    customDomain: tenant.customDomain,
+    appDomain: tenant.appDomain,
+  };
 }

@@ -26,12 +26,19 @@ datasource db {
 // ── Tenants ───────────────────────────────────────────────────────────
 
 model Tenant {
-  id          String       @id @default(cuid())
-  slug        String       @unique
-  legalName   String
-  displayName String?
-  databaseUrl String       // encrypted at rest in Phase 14
-  status      TenantStatus @default(ACTIVE)
+  id           String       @id @default(cuid())
+  slug         String       @unique
+  legalName    String
+  displayName  String?
+  databaseUrl  String       // encrypted at rest in Phase 14
+  // Public marketing site domain (e.g. "mmcleaningllc.com"). Stored
+  // lowercase, no scheme, no trailing slash. Matched on inbound Host
+  // header BEFORE the subdomain-of-APP_DOMAIN rule. Renders /sites/{slug}.
+  customDomain String?      @unique
+  // Internal-app domain (e.g. "portal.mmcleaningllc.com"). Same matching
+  // rules as customDomain. Renders /t/{slug} (the operator dashboard).
+  appDomain    String?      @unique
+  status       TenantStatus @default(ACTIVE)
 
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt

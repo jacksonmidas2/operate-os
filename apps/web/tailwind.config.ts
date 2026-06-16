@@ -42,6 +42,14 @@ const config: Config = {
           700: "#c2410c",
           900: "#7c2d12",
         },
+        // Muted text ramp — lifted for WCAG AA readability on the dark UI.
+        // (gray is used only for text in this app, never for bg/border, so
+        // overriding these stops safely raises contrast app-wide in one place.)
+        gray: {
+          400: "#aab3c5",
+          500: "#929cb0",
+          600: "#7d8799",
+        },
       },
       backgroundImage: {
         "noise":
@@ -58,12 +66,17 @@ const config: Config = {
       animation: {
         "fade-in": "fadeIn 0.4s ease-out",
         "slide-up": "slideUp 0.4s ease-out",
+        "marquee": "marquee 40s linear infinite",
       },
       keyframes: {
         fadeIn: { "0%": { opacity: "0" }, "100%": { opacity: "1" } },
         slideUp: {
           "0%": { opacity: "0", transform: "translateY(8px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
         },
       },
     },

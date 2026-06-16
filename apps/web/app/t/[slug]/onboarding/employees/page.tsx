@@ -190,10 +190,10 @@ function Select({
 function StatusPill({ status }: { status: string }) {
   const color =
     status === "GREEN"
-      ? "bg-green-100 text-green-900 dark:bg-green-900/30"
+      ? "bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30"
       : status === "YELLOW"
-        ? "bg-yellow-100 text-yellow-900 dark:bg-yellow-900/30"
-        : "bg-red-100 text-red-900 dark:bg-red-900/30";
+        ? "bg-amber-500/15 text-amber-300 ring-1 ring-amber-500/30"
+        : "bg-red-500/15 text-red-300 ring-1 ring-red-500/30";
   return (
     <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${color}`}>
       {status}

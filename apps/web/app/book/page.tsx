@@ -26,7 +26,7 @@ export default function BookHomePage() {
         </p>
       </div>
 
-      <div className="rounded-2xl border border-white/10 bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-6 shadow-card">
         <h2 className="text-lg font-semibold">How it works</h2>
         <ol className="mt-4 space-y-3 text-sm">
           <li>

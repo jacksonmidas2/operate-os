@@ -48,7 +48,7 @@ export default async function QuotePage({
           <SliderField name="sqft" label="Square feet" min={300} max={4000} step={50} defaultValue={sqft} />
           <button
             type="submit"
-            className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-4 py-2 text-sm font-medium hover:bg-gray-50"
+            className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-4 py-2 text-sm font-medium hover:bg-white/[0.08]"
           >
             Recalculate
           </button>

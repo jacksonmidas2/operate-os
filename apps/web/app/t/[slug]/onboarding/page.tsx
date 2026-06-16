@@ -78,7 +78,7 @@ export default async function OnboardingHomePage({
           <li key={s.key}>
             <Link
               href={`/t/${slug}/onboarding/${s.href}`}
-              className="flex items-center justify-between rounded-xl border border-white/10 bg-white p-4 transition hover:border-brand-500"
+              className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-4 transition hover:border-accent-500/40 hover:bg-white/[0.06]"
             >
               <div>
                 <div className="font-medium">{s.label}</div>

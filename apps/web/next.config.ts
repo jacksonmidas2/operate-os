@@ -10,6 +10,12 @@ const config: NextConfig = {
     "@operate/providers",
     "@operate/tenant-router",
   ],
+  images: {
+    // Public-site marquee uses Wikimedia-hosted brand logos.
+    remotePatterns: [
+      { protocol: "https", hostname: "upload.wikimedia.org" },
+    ],
+  },
 };
 
 export default config;
