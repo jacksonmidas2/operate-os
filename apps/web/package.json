@@ -15,9 +15,11 @@
     "@operate/db-tenant": "*",
     "@operate/providers": "*",
     "@operate/tenant-router": "*",
+    "exceljs": "^4.4.0",
     "next": "^15.1.4",
     "next-auth": "5.0.0-beta.25",
     "nodemailer": "^6.9.16",
+    "pdf-lib": "^1.17.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "zod": "^3.24.1"

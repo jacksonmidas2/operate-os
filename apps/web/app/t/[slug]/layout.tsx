@@ -12,7 +12,7 @@ import { getEffectiveRole } from "@/lib/role";
 const OPERATOR_LINKS: ShellLink[] = [
   { label: "Dashboard", href: "", icon: "▦" },
   { label: "Clients", href: "/clients", icon: "🏢" },
-  { label: "Schedule", href: "/schedule", icon: "📅" },
+  { label: "Scheduler", href: "/schedule", icon: "📅" },
   { label: "Jobs", href: "/jobs", icon: "🧹" },
   { label: "Dispatch", href: "/dispatch", icon: "🛰️" },
   { label: "Invoices", href: "/invoices", icon: "🧾" },
