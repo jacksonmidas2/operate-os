@@ -5,12 +5,11 @@ import { getTenantContext } from "@/lib/tenant-db";
 import { PageHeader } from "@/components/Shell";
 import {
   SchedulerBuilder,
-  initialsOf,
-  avatarColor,
   type BuilderLocation,
   type BuilderEmployee,
   type EditState,
 } from "./SchedulerBuilder";
+import { initialsOf, avatarColor } from "./avatar";
 
 function pad(n: number): string {
   return String(n).padStart(2, "0");
