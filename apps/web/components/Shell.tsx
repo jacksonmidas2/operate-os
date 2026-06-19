@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { signOut } from "@/auth";
 import { MobileNav } from "./MobileNav";
+import { SidebarNav } from "./SidebarNav";
+import { BackButton } from "./BackButton";
 
 export interface ShellLink {
   label: string;
@@ -53,22 +55,7 @@ export function Shell({
             {brand}
           </div>
         </div>
-        <nav className="flex-1 space-y-0.5 overflow-y-auto p-3">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="group flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition hover:bg-white/[0.06] hover:text-white"
-            >
-              {link.icon ? (
-                <span className="mr-3 text-base opacity-70 group-hover:opacity-100">
-                  {link.icon}
-                </span>
-              ) : null}
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <SidebarNav links={links} />
         {extraSidebar}
         {user ? (
           <div className="border-t border-white/5 p-3">
@@ -101,6 +88,7 @@ export function Shell({
       {/* Content */}
       <main className="min-w-0 flex-1">
         <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10 animate-fade-in">
+          <BackButton />
           {children}
         </div>
       </main>

@@ -78,6 +78,14 @@ body::before {
     @apply ring-accent-500/60 border-accent-500/60 outline-none;
   }
 
+  /* Native <select> dropdown options — force a dark background + light text so
+     the open popup is readable on every OS (Windows was rendering it
+     light-on-white = "hard to see text"). */
+  option {
+    background-color: #11142a;
+    color: #f0f5ff;
+  }
+
   /* Tables inherit */
   table thead tr {
     @apply bg-white/[0.03];

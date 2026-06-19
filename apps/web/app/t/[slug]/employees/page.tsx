@@ -55,6 +55,27 @@ async function clearPay(slug: string, formData: FormData) {
   revalidatePath(`/t/${slug}/employees`);
 }
 
+async function updateEmployee(slug: string, formData: FormData) {
+  "use server";
+  const { db } = await getTenantContext(slug);
+  const id = String(formData.get("employeeId") ?? "");
+  if (!id) return;
+  const firstName = String(formData.get("firstName") ?? "").trim();
+  const lastName = String(formData.get("lastName") ?? "").trim();
+  if (!firstName) return;
+  await db.employee.update({
+    where: { id },
+    data: {
+      firstName,
+      lastName,
+      employmentType: String(formData.get("employmentType") ?? "CONTRACTOR") as
+        | "W2"
+        | "CONTRACTOR",
+    },
+  });
+  revalidatePath(`/t/${slug}/employees`);
+}
+
 export default async function EmployeesListPage({
   params,
 }: {
@@ -108,8 +129,7 @@ export default async function EmployeesListPage({
         <table className="w-full text-sm">
           <thead className="bg-white/[0.04] text-left text-[10px] uppercase tracking-wider text-gray-400">
             <tr>
-              <th className="px-4 py-2">Name</th>
-              <th className="px-4 py-2">Type</th>
+              <th className="px-4 py-2">Name &amp; type</th>
               <th className="px-4 py-2">Pay</th>
               <th className="px-4 py-2 text-right">Jobs</th>
               <th className="px-4 py-2">Status</th>
@@ -119,7 +139,7 @@ export default async function EmployeesListPage({
           <tbody className="divide-y divide-white/5">
             {employees.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
+                <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
                   No employees yet — add your first.
                 </td>
               </tr>
@@ -127,19 +147,51 @@ export default async function EmployeesListPage({
               employees.map((e) => (
                 <tr key={e.id} className="hover:bg-white/[0.03]">
                   <td className="px-4 py-3">
-                    <div className="font-medium">
-                      {e.firstName} {e.lastName}
-                      {e.timeEntries.length > 0 ? (
-                        <span className="ml-2 rounded-full bg-blue-100 px-2 py-0.5 text-xs text-blue-900 dark:bg-blue-900/30 dark:text-blue-200">
-                          ⏱ on shift
+                    <form
+                      action={updateEmployee.bind(null, slug)}
+                      className="flex flex-col gap-1.5"
+                    >
+                      <input type="hidden" name="employeeId" value={e.id} />
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <input
+                          name="firstName"
+                          defaultValue={e.firstName}
+                          placeholder="First"
+                          className="w-24 rounded-lg border border-white/10 bg-white/[0.04] px-2 py-1 text-sm text-gray-100"
+                        />
+                        <input
+                          name="lastName"
+                          defaultValue={e.lastName}
+                          placeholder="Last"
+                          className="w-28 rounded-lg border border-white/10 bg-white/[0.04] px-2 py-1 text-sm text-gray-100"
+                        />
+                        {e.timeEntries.length > 0 ? (
+                          <span className="rounded-full bg-blue-500/15 px-2 py-0.5 text-xs text-blue-300 ring-1 ring-blue-500/30">
+                            ⏱ on shift
+                          </span>
+                        ) : null}
+                      </div>
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <select
+                          name="employmentType"
+                          defaultValue={e.employmentType}
+                          className="rounded-lg border border-white/10 bg-white/[0.04] px-2 py-1 text-xs text-gray-100"
+                        >
+                          <option value="CONTRACTOR">Contractor</option>
+                          <option value="W2">Employee</option>
+                        </select>
+                        <button
+                          type="submit"
+                          className="rounded-lg border border-white/10 bg-white/[0.04] px-2 py-1 text-xs text-gray-100 hover:bg-white/[0.08]"
+                        >
+                          Save
+                        </button>
+                        <span className="text-xs text-gray-400">
+                          {e.email ?? e.phone ?? "—"}
                         </span>
-                      ) : null}
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      {e.email ?? e.phone ?? "—"}
-                    </div>
+                      </div>
+                    </form>
                   </td>
-                  <td className="px-4 py-3 text-xs">{e.employmentType}</td>
                   <td className="px-4 py-3">
                     <form
                       action={updatePay.bind(null, slug)}

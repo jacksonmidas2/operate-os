@@ -10,6 +10,7 @@ import {
   type EditState,
 } from "./SchedulerBuilder";
 import { initialsOf, avatarColor } from "./avatar";
+import { DateNav } from "./DateNav";
 
 function pad(n: number): string {
   return String(n).padStart(2, "0");
@@ -141,10 +142,6 @@ export default async function SchedulerPage({
   }
 
   const dayDate = new Date(`${date}T00:00:00`);
-  const prev = new Date(dayDate);
-  prev.setUTCDate(prev.getUTCDate() - 1);
-  const next = new Date(dayDate);
-  next.setUTCDate(next.getUTCDate() + 1);
   const dateLabel = dayDate.toLocaleDateString(undefined, {
     weekday: "long",
     month: "long",
@@ -158,30 +155,7 @@ export default async function SchedulerPage({
       <PageHeader
         title="Scheduler"
         description="Assign employees to jobs and manage daily schedules."
-        actions={
-          <div className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/[0.04] p-0.5">
-            <Link
-              href={`/t/${slug}/schedule?date=${ymd(prev)}`}
-              className="rounded-md px-2.5 py-1.5 text-sm text-gray-300 hover:bg-white/[0.06]"
-              aria-label="Previous day"
-            >
-              ‹
-            </Link>
-            <Link
-              href={`/t/${slug}/schedule`}
-              className="rounded-md px-3 py-1.5 text-xs font-medium uppercase tracking-wide text-gray-200 hover:bg-white/[0.06]"
-            >
-              Today
-            </Link>
-            <Link
-              href={`/t/${slug}/schedule?date=${ymd(next)}`}
-              className="rounded-md px-2.5 py-1.5 text-sm text-gray-300 hover:bg-white/[0.06]"
-              aria-label="Next day"
-            >
-              ›
-            </Link>
-          </div>
-        }
+        actions={<DateNav slug={slug} date={date} today={ymd(new Date())} />}
       />
 
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(320px,380px)_1fr]">

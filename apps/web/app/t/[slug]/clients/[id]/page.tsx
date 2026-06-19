@@ -17,6 +17,9 @@ async function updateClient(
     where: { id: clientId },
     data: {
       businessName,
+      billingStructure: String(
+        formData.get("billingStructure") ?? "PER_VISIT",
+      ) as "FLAT_MONTHLY" | "HOURLY" | "PER_VISIT" | "PER_UNIT",
       mainContactName:
         (String(formData.get("mainContactName") ?? "") || null) as string | null,
       contactEmail:
@@ -68,10 +71,15 @@ async function updateLocation(
   const { db } = await getTenantContext(slug);
   const name = String(formData.get("name") ?? "").trim();
   if (!name) return;
+  const monthlyRaw = String(formData.get("monthlyPayment") ?? "").trim();
+  const monthlyPaymentCents = monthlyRaw
+    ? Math.max(0, Math.round(Number(monthlyRaw) * 100))
+    : null;
   await db.location.update({
     where: { id: locationId },
     data: {
       name,
+      monthlyPaymentCents,
       addressLine1: String(formData.get("addressLine1") ?? "").trim(),
       addressLine2:
         (String(formData.get("addressLine2") ?? "").trim() || null) as
@@ -183,6 +191,19 @@ export default async function ClientDetailPage({
               className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
             />
           </label>
+          <label className="block">
+            <span className="block text-sm font-medium">Billing structure</span>
+            <select
+              name="billingStructure"
+              defaultValue={client.billingStructure}
+              className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm"
+            >
+              <option value="PER_VISIT">Per visit</option>
+              <option value="PER_UNIT">Per unit</option>
+              <option value="FLAT_MONTHLY">Flat monthly</option>
+              <option value="HOURLY">Hourly</option>
+            </select>
+          </label>
           <label className="block sm:col-span-2">
             <span className="block text-sm font-medium">Notes</span>
             <textarea
@@ -227,6 +248,7 @@ export default async function ClientDetailPage({
                 <input name="city" required defaultValue={loc.city} placeholder="City" className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm sm:col-span-2" />
                 <input name="state" required defaultValue={loc.state} placeholder="ST" className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm" />
                 <input name="postalCode" required defaultValue={loc.postalCode} placeholder="ZIP" className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm" />
+                <input name="monthlyPayment" type="number" step="0.01" min="0" defaultValue={loc.monthlyPaymentCents != null ? (loc.monthlyPaymentCents / 100).toFixed(2) : ""} placeholder="$/mo contract — flat-monthly clients" className="rounded-lg border border-white/10 bg-white/[0.04] text-gray-100 px-3 py-2 text-sm sm:col-span-3" />
                 <div className="sm:col-span-6 flex items-center justify-between gap-2">
                   <button
                     type="submit"

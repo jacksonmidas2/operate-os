@@ -138,7 +138,8 @@ export function SchedulerBuilder({
               name="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className={fieldCls}
+              onClick={(e) => (e.currentTarget as HTMLInputElement).showPicker?.()}
+              className={`${fieldCls} [color-scheme:dark]`}
             />
           </label>
 
@@ -152,7 +153,8 @@ export function SchedulerBuilder({
                 name="start"
                 value={start}
                 onChange={(e) => setStart(e.target.value)}
-                className={fieldCls}
+                onClick={(e) => (e.currentTarget as HTMLInputElement).showPicker?.()}
+                className={`${fieldCls} [color-scheme:dark]`}
               />
             </label>
             <label className="block">
@@ -164,7 +166,8 @@ export function SchedulerBuilder({
                 name="end"
                 value={end}
                 onChange={(e) => setEnd(e.target.value)}
-                className={fieldCls}
+                onClick={(e) => (e.currentTarget as HTMLInputElement).showPicker?.()}
+                className={`${fieldCls} [color-scheme:dark]`}
               />
             </label>
           </div>
