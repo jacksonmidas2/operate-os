@@ -138,7 +138,14 @@ export function SchedulerBuilder({
               name="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              onClick={(e) => (e.currentTarget as HTMLInputElement).showPicker?.()}
+              onClick={(e) => {
+                try {
+                  (e.currentTarget as HTMLInputElement).showPicker?.();
+                } catch {
+                  /* showPicker can throw (already open / unsupported) — the
+                     native click still opens the picker, so ignore it. */
+                }
+              }}
               className={`${fieldCls} [color-scheme:dark]`}
             />
           </label>
@@ -153,7 +160,14 @@ export function SchedulerBuilder({
                 name="start"
                 value={start}
                 onChange={(e) => setStart(e.target.value)}
-                onClick={(e) => (e.currentTarget as HTMLInputElement).showPicker?.()}
+                onClick={(e) => {
+                try {
+                  (e.currentTarget as HTMLInputElement).showPicker?.();
+                } catch {
+                  /* showPicker can throw (already open / unsupported) — the
+                     native click still opens the picker, so ignore it. */
+                }
+              }}
                 className={`${fieldCls} [color-scheme:dark]`}
               />
             </label>
@@ -166,7 +180,14 @@ export function SchedulerBuilder({
                 name="end"
                 value={end}
                 onChange={(e) => setEnd(e.target.value)}
-                onClick={(e) => (e.currentTarget as HTMLInputElement).showPicker?.()}
+                onClick={(e) => {
+                try {
+                  (e.currentTarget as HTMLInputElement).showPicker?.();
+                } catch {
+                  /* showPicker can throw (already open / unsupported) — the
+                     native click still opens the picker, so ignore it. */
+                }
+              }}
                 className={`${fieldCls} [color-scheme:dark]`}
               />
             </label>

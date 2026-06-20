@@ -14,7 +14,7 @@ export function SidebarNav({
   links: ShellLink[];
   storageKey?: string;
 }) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
   const [order, setOrder] = useState<string[] | null>(null);
   const [dragHref, setDragHref] = useState<string | null>(null);
   const [overHref, setOverHref] = useState<string | null>(null);

@@ -39,7 +39,13 @@ export function DateNav({
         onChange={(e) => {
           if (e.target.value) go(e.target.value);
         }}
-        onClick={(e) => (e.currentTarget as HTMLInputElement).showPicker?.()}
+        onClick={(e) => {
+          try {
+            (e.currentTarget as HTMLInputElement).showPicker?.();
+          } catch {
+            /* showPicker can throw — native click still opens the picker. */
+          }
+        }}
         aria-label="Pick a day"
         className="rounded-md border-0 bg-transparent px-2 py-1 text-sm text-gray-100 [color-scheme:dark]"
       />
